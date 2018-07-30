@@ -251,6 +251,7 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
     2.新建Dockerfile文件：
         --vi Dockerfile
     3.拉取tomcat镜像
+        --docker镜像地址：http://get.daocloud.io/
         --docker pull tomcat:latest   
             
          
