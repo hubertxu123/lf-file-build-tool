@@ -182,3 +182,78 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
     **1.windows**   
         1.win10外:www.docker.com/products/docker-toolbox
         2.win10:  www.docker.com/products/docker#/windows
+    **2.CentOS 6.5上安装docker**
+        1. uname -r         --查看下你的系统内核是多少
+        2. cat  /etc/issue  --查看系统版本
+                CentOS release 6.5 （Final）
+                Kernel \r on an \m
+        3. rpm -ivh http://dl.Fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+        4. pm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+        5. yum -y install docker-io lvm2 lvm2-devel
+        6. rpm -qa | grep docker  --查看docker
+        7. service docker start   --启动并设置开机自动启动
+        8. chkconfig docker on   --启动并设置开机自动启动
+        
+**9.操作**
+**_(由于docker的默认形式为bridge模式，由于没有指定映射关系，所以即使启动容器也是无法外部访问的)_**
+
+    1.获取CentOS镜像　　--默认官网下载镜像
+      # docker pull  hello-world:latest
+    2.运行镜像：
+      # docker run hello-world (如果没有会先去远程pull)
+         1. The Docker client contacted the Docker daemon.
+            //docker客户端连接docker daemon
+         2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+            (amd64)
+            //daemon从docker hub拉取hello-world镜像
+         3. The Docker daemon created a new container from that image which runs the
+            executable that produces the output you are currently reading.
+            //daemon从镜像创建了一个新的容器，生成当前正在读取的输出的可执行文件。
+         4. The Docker daemon streamed that output to the Docker client, which sent it
+            to your terminal.
+            //daemon将输出变为输出流输出到客户端，客户端将他发送给终端
+    3.nginx镜像运行：
+        1.nginx与hello-world镜像相比，他是一个需要持久运行的容器(hello-world只打印内容)
+        2.前台挂起：使用ctrl+c即可退出运行
+          后台运行：--
+        3.进入nginx容器内部查看--
+        -----
+        docker ps           -- 查看当前运行中的docker镜像（以管理员身份运行）
+        docker run nginx    -- 以前台方式运行docker，ctrl+c关闭
+        docker run -d nginx -- 以后台方式运行docker，返回一个字符串代表容器id
+        docker run --help   -- 帮助查看run
+        docker stop 容器id  -- 停止运行某容器
+        docker run -d -p 8080:80 nginx   --开放指定端口映射   
+        docker run -d -P nginx           --开放随机端口映射（可用ps查看具体端口进行访问）
+        netstat -na |grep 32769          --查看32769端口是否被启动
+        -----容器内部
+        docker exec --help  -- 帮助查看exec
+        ·docker exec -it 容器id截取部分(可唯一确定即可) bash    --进入容器内部--继续执行命令
+        ·docker exec -it a11e4c6                      bash
+        ·############以下为容器内部执行命令############
+            which nginx         --查看nginx路径
+            ps -ef              --查看当前服务的进程
+            exit                --回到主机
+        ·#############################################
+        docker stop alle4c6
+         -----docker网络-访问容器中的nginx
+         1.docker网络类型：
+            桥接bridge
+            主机host
+            none
+         2.端口映射-网络访问
+         docker run -d -p 8080:80 nginx   --开放指定端口映射   
+         docker run -d -P nginx           --开放随机端口映射（可用ps查看具体端口进行访问）
+**10.制作自己的镜像**
+
+    1.准备一个打包好的项目：
+        --https://gitee.com/fuhai/jpress/blob/alpha/wars/jpress-web-newest.war 此处使用jpress的war包
+    2.新建Dockerfile文件：
+        --vi Dockerfile
+    3.拉取tomcat镜像
+        --docker pull tomcat:latest   
+            
+         
+        
+        
+        
