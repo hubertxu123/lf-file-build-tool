@@ -238,7 +238,7 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
         docker stop alle4c6
          -----docker网络-访问容器中的nginx
          1.docker网络类型：
-            桥接bridge
+            桥接bridge 
             主机host
             none
          2.端口映射-网络访问
@@ -248,12 +248,28 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
 
     1.准备一个打包好的项目：
         --https://gitee.com/fuhai/jpress/blob/alpha/wars/jpress-web-newest.war 此处使用jpress的war包
-    2.新建Dockerfile文件：
-        --vi Dockerfile
-    3.拉取tomcat镜像
+    2.拉取tomcat镜像
         --docker镜像地址：http://get.daocloud.io/
-        --docker pull tomcat:latest   
+        --docker pull tomcat:latest  
+        --docker pull daocloud.io/library/tomcat:latest
+        --cp /mnt/hgfs/谷歌下载/jpress-web-newest.war /docker_container/
+        --mv jpress-web-newest.war jpress.war
+     3.新建Dockerfile文件：
+        --vi Dockerfile
+            from daocloud.io/library/tomcat
+            MAINTAINER lishengbo 982338665@qq.com
+            COPY jpress.war /usr/local/tomcat/webapps
+     4.构建镜像：
+        --docker build -t jpress:latest .
+        --docker run -d -p 8080:80 jpress
+        --localhost:8888/jpress
+        -------
+        --docker pull hub.c.162/library/mysql:latest
+        --docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=000000 hub.c.162/library/mysql:latest
+            -e 指环境变量 添加mysql管理员密码000000
+         
             
+                  
          
         
         
