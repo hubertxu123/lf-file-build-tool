@@ -6,7 +6,7 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
 
 
 
-
+# jenkins++
 **什么是持续集成？**
     
     持续集成是一个开发的实践，需要开发人员定期集成代码到共享存储库。这个概念是为了消除发现的问题，后来出现在构建生命周期的问题。
@@ -267,7 +267,161 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
         --docker pull hub.c.162/library/mysql:latest
         --docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=000000 hub.c.162/library/mysql:latest
             -e 指环境变量 添加mysql管理员密码000000
-         
+
+# jenkins++使用
+
+**1.jenkins下载安装：见文件夹/jenkins/.**
+
+**2.插件安装：**
+
+    1.系统管理-插件管理-可选插件：--直接安装
+        ·rebuilder      --重新构建方便
+        ·safe restart   --安全重启
+        
+**3.jenkins基础配置：**
+
+    1.安全管理配置：
+        系统管理-Configure GlobalSecurity-授权策略-安全矩阵-添加用户组-admin添加-管理员权限
+    2.添加新用户：
+        系统管理-管理用户-新建用户user-完成
+        系统管理-Configure GlobalSecurity-授权策略-安全矩阵-添加用户组-user添加-除去adminstar之外的所有权限
+
+**4.linux系统准备：**
+    
+    1.查询IP地址：
+        ifconfig
+        inet addr:192.168.150.130 
+    2.linux系统用户名密码
+        root
+        admin
+    3.确定可以进行ssh连接
+           
+**5.linux安装java环境**       
+    
+    1.yum install java -安装
+    2.java -version    -验证
+    3.安装或卸载或升级java
+        安装之前先检查一下系统有没有自带open-jdk
+        命令：
+        rpm -qa |grep java
+        rpm -qa |grep jdk
+        rpm -qa |grep gcj
+        
+        rpm -qa | grep java | xargs rpm -e --nodeps 批量卸载所有带有Java的文件  这句命令的关键字是java
+        
+        首先检索包含java的列表
+        yum list java*
+        检索1.8的列表
+        yum list java-1.8*   
+        安装1.8.0的所有文件
+        yum install java-1.8.0-openjdk* -y
+        使用命令检查是否安装成功
+        java -version
+        
+  
+**6.linux安装配置git**
+
+    1.yum install git   -安装
+    2.git version       -验证
+    3.git初始化并生产授信证书：
+        [root@localhost //]# git config --global user.name "lishengbo"
+        [root@localhost //]# git config --global user.email "982338665@qq.com"
+        [root@localhost //]# ssh-keygen -t rsa -C "982338665@qq.com"
+        Generating public/private rsa key pair.
+        Enter file in which to save the key (/root/.ssh/id_rsa): --证书名称
+        Created directory '/root/.ssh'.
+        Enter passphrase (empty for no passphrase):              --密码null
+        Enter same passphrase again:                             --密码null   
+        Your identification has been saved in /root/.ssh/id_rsa.
+        Your public key has been saved in /root/.ssh/id_rsa.pub.
+        The key fingerprint is:
+        24:2f:e2:cf:dc:fa:59:fa:61:14:cc:6c:8e:60:4d:42 982338665@qq.com
+        The key's randomart image is:
+        +--[ RSA 2048]----+
+        |     .E .        |
+        |       + +       |
+        |      + o *      |
+        |     . = + .     |
+        |    . . S o      |
+        |   . . . .       |
+        |    .     +      |
+        |     + . = .     |
+        |      =o=..      |
+        +-----------------+
+        [root@localhost //]# cd ~/.ssh/
+        [root@localhost .ssh]# ll
+        total 8
+        -rw-------. 1 root root 1675 Aug  1 06:47 id_rsa        -私钥
+        -rw-r--r--. 1 root root  398 Aug  1 06:47 id_rsa.pub    -公钥
+    4.将git证书配置到github上，保证linux与github联通
+        登录github-settings-ssh anf GPG keys-new ssh key -:
+            name+公钥
+    5.测试git
+        ssh git@github.com
+        yes
+        Hi a982338665! You've successfully authenticated,
+
+**7.linux安装配置maven**
+
+    1.地址：http://maven.apache.org/download.cgi
+    2.链接地址：http://mirrors.hust.edu.cn/apache/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.zip
+    
+    3.安装
+        cd /maven
+        wget http://mirrors.hust.edu.cn/apache/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.zip
+        unzip apache-maven-3.5.4-bin.zip   --解压即安装
+        cd apache-maven-3.5.4              --进入已安装好的maven
+        pwd                                --显示当前目录路径
+            /maven/apache-maven-3.5.4
+    4.添加maven配置文件：
+        vim /etc/profile --文件末尾添加
+            export MAVEN_HOME=/maven/apache-maven-3.5.4
+            export PATH=$MAVEN_HOME/bin:$PATH       --bin文件夹加入到path中
+        . /etc/profile   --加载更新后的系统配置
+    5.验证maven安装成功：
+        maven -version
+
+**8.tomcat安装配置：**   
+    
+    1.地址：https://tomcat.apache.org/download-90.cgi
+    2.链接地址：http://mirrors.shu.edu.cn/apache/tomcat/tomcat-9/v9.0.10/bin/apache-tomcat-9.0.10.zip
+    
+    3.安装：
+        wget ...    下载
+        unzip ...   解压缩
+    4.赋予可執行權限
+        cd apache-tomcat-9.0.10
+        chmod a+x -R *   --給tomcat下所有文件赋予可执行权限
+            a+x代表赋予linux登录的所有人
+            -R当前路径下及所有子路径
+            *代表路径下所有文件名
+    5.端口修改：
+        vim conf/server.xml
+    6.运行测试：
+        bin/startup.sh
+        ps -ef |grep tomcat
+    7.浏览器测试：
+        ip+8080  
+        如果在windows上无法访问VM中的linux中的tomcat，请尝试关闭防火墙
+
+**9.將linux服務器注冊到jenkins**
+
+    1.新建节点：
+        系统管理-管理节点-新建节点-节点名称(TestEnv) -填写相关信息-见图片
+    2.尝试连接：--见图片
+    3.运行验证任务：新建任务验证jenkins任务可运行在linux服务上-见图片
+    
+**10.应用程序部署：**
+
+    1.测试用的应用程序部署在VM上的linux中
+    2.mysql数据库部署在另外的...
+
+    3.登录github-找到测试应用程序并fork到本地-获取代码修改权限
+    4.将git项目down到本地，使用idea打开
+    5.解决编译错误进行构建
+    
+    
+        
             
                   
          
