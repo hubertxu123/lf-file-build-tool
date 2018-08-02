@@ -5,25 +5,25 @@
          version="3.1"
          metadata-complete="true">
     <!--配置servlet控制器======================================================================================-->
-    <servlet>
+   <!-- <servlet>
         <servlet-name>relation-dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <!--配置spring-mvc需要加载的配置文件-->
-        <!--spring-dao.xml
+        &lt;!&ndash;配置spring-mvc需要加载的配置文件&ndash;&gt;
+        &lt;!&ndash;spring-dao.xml
             spring-service.xml
             spring-web.xml
             mybatis-spring整合
-        -->
-        <!--<init-param>
+        &ndash;&gt;
+        &lt;!&ndash;<init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:spring/spring-*.xml</param-value>
-        </init-param>-->
+        </init-param>&ndash;&gt;
     </servlet>
     <servlet-mapping>
         <servlet-name>relation-dispatcher</servlet-name>
-        <!--resultful风格接受所有请求-->
+        &lt;!&ndash;resultful风格接受所有请求&ndash;&gt;
         <url-pattern>/</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
     <!--配置servlet控制器======================================================================================-->
     <welcome-file-list>
         <welcome-file>login.html</welcome-file>
