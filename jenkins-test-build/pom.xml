@@ -160,13 +160,14 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.0.0</version>
-               <!-- <configuration>
-                    <webResources>
-                        <resource>
-                            <directory>webapps</directory>
-                        </resource>
-                    </webResources>
-                </configuration>-->
+                <!--解决静态页面在打包时的丢失问题+++++++++++++++++++++++++++++-->
+                <configuration>
+                    <!--指定web.xml文件的位置-->
+                    <webXml>src\main\webapps\WEB-INF\web.xml</webXml>
+                    <!--指定jsp等文件所在位置-->
+                    <warSourceDirectory>src\main\webapps</warSourceDirectory>
+                </configuration>
+
             </plugin>
         </plugins>
     </build>
