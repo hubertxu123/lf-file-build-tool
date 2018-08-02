@@ -429,6 +429,19 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
         ·访问页面验证结果
     2.自动部署shell脚本:
         ·deploy-jenkins.sh
+
+**11.部署及注意事项：**        
+    
+    1.部署服务器准备：linux-01
+        ·安装java
+        ·安装git      --在git上拉取项目源码，存储在linux-01上
+        ·安装maven    --使用mvn命令打包
+        ·安装tomcat   --将打好的war移到tomcat并启动
+    2.开发者电脑：
+        ·经code，测试完成后，commit后，pull到git上
+        ·登录jenkins，点击构建将执行在linux-01上的一系列操作
+    3.具体的构建方式，请查看截图--运行注意*
+        
         
         
             
