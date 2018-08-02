@@ -6,6 +6,7 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
 
 **docker镜像中心：_docker镜像地址：http://get.daocloud.io/_**
 **jenkins官网：_https://jenkins.io/download/thank-you-downloading-windows-installer-stable/_**
+**dubbo中文参考文档：_https://dubbo.gitbooks.io/dubbo-user-book/content/quick-start.html_**
 
 
 
