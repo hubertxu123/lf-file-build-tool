@@ -478,8 +478,13 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
         →option→choose language→Chinese simplified
     6.视频介绍地址：http://www.testroad.org/video/sign_details?id=3&v=15
 
-**2.：**          
+**2.jmeter响应数据乱码解决：**   
+    
+    1.修改jemter安装路径下：jemter.properties文件中的IOS-8859-1编码为utf-8
+    2.修改程序，返回响应数据类型编码为IOS...
+    3.jemter添加后置处理器：prev.serDataEncoding("utf-8")
                   
+         
          
         
         

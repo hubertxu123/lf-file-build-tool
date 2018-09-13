@@ -4,7 +4,8 @@
 *.iws
 */out/
 .idea
-*.iml
+jenkins-test-build/jenkins-test-build.iml
 *.log
 *.bak
 **/logs/
+*.iml
