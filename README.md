@@ -61,7 +61,7 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
     3.docker images --查看本地所有的images
       ·REPOSITORY   TAG     imageid  created                size
         nginx-hello  latest  0dac...  28 minutes ago         182.8M
-    4.docker run -p 8080:80 -d nginx-hello （名称为docker images查出来的REPOSITORY的值-即路径）
+    4.docker run -p 8080:80 -d nginx-hello:latest （名称为docker images查出来的REPOSITORY的值+tag  -即路径）
       ·17add7....  --启动成功后返回一个container id
       ·-p 8080:80  --端口映射：指把nginx原来的80端口映射为8080端口进行开启
       ·-d          --允许此程序直接返回
@@ -105,8 +105,22 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
     18.docker rmi       删除image
     19.docker cp        在host和container之间拷贝文件
     20.docker commit    保存改动为新的image --创建新的镜像
+    21.docker top 容器名 查看当前容器正在运行的进程
+    22.docker inspect 容器名   --容器的相关信息-可查看挂载信息
+    23.docker logs -f 容器名   --查看web应用日志
+    24.docker search tomcat    --搜索tomcat镜像
     ****************************************************************************
-    
+    docker 启动 web 示例报错如下：
+        Error response from daemon: Cannot start container web: iptables failed: iptables -t nat -A DOCKER -p tcp -d 0/0 --dport 32797 -j DNAT --to-destination 172.17.0.30:5000 ! -i docker0: iptables: No chain/target/match by that name.
+        1
+        解决办法：重建docker0网络恢复
+        
+        pkill docker 
+        iptables -t nat -F 
+        ifconfig docker0 down 
+        brctl delbr docker0 
+        docker -d 
+        service docker restart
 **4.Dockerfile：---通过编写简单文件自创docker镜像**
 
     1.常用命令中使用docker commit创建新镜像
@@ -192,7 +206,7 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
                 CentOS release 6.5 （Final）
                 Kernel \r on an \m
         3. rpm -ivh http://dl.Fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-        4. pm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
+        4. rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6
         5. yum -y install docker-io lvm2 lvm2-devel
         6. rpm -qa | grep docker  --查看docker
         7. service docker start   --启动并设置开机自动启动
@@ -430,6 +444,7 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
     5.解决编译错误进行构建
 
 **11.自动化部署任务：**
+
     1.过程：
         ·git同步最新代码
         ·maven打包
