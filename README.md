@@ -274,6 +274,7 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
         --docker镜像地址：http://get.daocloud.io/
         --docker pull tomcat:latest  
         --docker pull daocloud.io/library/tomcat:latest
+        --docker pull daocloud.io/library/nginx:latest
         --cp /mnt/hgfs/谷歌下载/jpress-web-newest.war /docker_container/
         --mv jpress-web-newest.war jpress.war
      3.新建Dockerfile文件：
