@@ -243,6 +243,7 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
         docker stop 容器id  -- 停止运行某容器
         docker run -d -p 8080:80 nginx   --开放指定端口映射   
         docker run -d -P nginx           --开放随机端口映射（可用ps查看具体端口进行访问）
+        docker run -d --name 名字 -p 3306:3306 -p 8080:80 镜像名
         netstat -na |grep 32769          --查看32769端口是否被启动
         +++++++++++++++++++++++++++++++++++++++
         --查看容器的挂载位置：显示所有相关配置信息
@@ -400,6 +401,7 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
     4.添加maven配置文件：
         vim /etc/profile --文件末尾添加
             export MAVEN_HOME=/maven/apache-maven-3.5.4
+            、
             export PATH=$MAVEN_HOME/bin:$PATH       --bin文件夹加入到path中
         . /etc/profile   --加载更新后的系统配置
     5.验证maven安装成功：
