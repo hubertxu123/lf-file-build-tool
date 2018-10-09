@@ -39,3 +39,17 @@
 10.mysql安全设置(系统会一路问你几个问题，看不懂复制之后翻译，基本上一路yes)：
 
     # mysql_secure_installation
+    
+# 关于登录方式：
+
+**1.指定密码登录：**
+    
+    mysql -u root -p
+    
+**2.指定密码,端口登录：**
+
+    mysql -u root -p  -P 3306
+    
+**3.指定密码,端口,ip登录：**
+
+    mysql -h ip -u root -p -P 3306
