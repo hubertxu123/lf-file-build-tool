@@ -26,6 +26,11 @@
     # use mysql;
     # update user set password=PASSWORD("这里输入root用户密码") where User='root';
     # flush privileges; 
+    -------------------------
+    # 使用命令行重新登录：
+    # mysql -u root -p
+      Enter password: 输入密码
+    # 进入登录...
 9.查看mysql是否自启动,并且设置开启自启动命令
 
  
