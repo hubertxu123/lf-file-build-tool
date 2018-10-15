@@ -47,4 +47,28 @@
 **4.使用：**
     
     1.启动：F:\install-01\apache-jmeter-4.0\bin\jmeter.bat
-    2.
+    
+**5.多用户测试-cvs文件内容读取：**
+    
+    F:\github-work\buildTool\jmeter\cvs
+    
+**6.jmeter命令行测试：--linux**
+
+    1,windows上录好jmx
+    2.命令行：sh jmeter,sh -n -t xxx.jmx -l result.jtl
+    3.将result.jtl导入jmeter
+    
+**7.redis压测：**
+    
+    1.redis-benchmark -h 127.0.0.1 -p 6379 -c 100 -n 100000
+        100个并发连接 100000个请求
+        F:\github-work\buildTool\jmeter\redis
+    2.redis-benchmark -h 127.0.0.1 -p 6379 -q -d 100
+       存取大小为100字节的数据包 获取qps
+        F:\github-work\buildTool\jmeter\redis
+    3.redis-benchmark -t set,lpush -n 100000 -q
+        仅测试set,lpush 命令
+    4.redis-benchmark -n 100000 -q script load "redis.call('set','foo','bar')"
+        仅测试某一条命令插入100000条的qps
+    
+    
