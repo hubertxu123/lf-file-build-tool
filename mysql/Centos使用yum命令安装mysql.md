@@ -61,7 +61,17 @@
     1. 改表法。可能是你的帐号不允许从远程登陆，只能在localhost。这个时候只要在localhost的那台电脑，登入mysql后，更改 "mysql" 数据库里的 "user" 表里的 "host" 项，从"localhost"改称"%"
         mysql -u root -pvmware;
         mysql>use mysql;
-        mysql>update user set host = '%' where user = 'root';
+        mysql>update user set host = '%' where user = 'root';   --若报错,则执行set sql_safe_updates=0; 
+            ERROR 1175 (HY000): You are using safe update mode and you tried to update a table without a WHERE that uses a KEY column
+            mysql>  set sql_safe_updates=0; 
+                ——————————————
+                mysql有个叫SQL_SAFE_UPDATES的变量，为了数据库更新操作的安全性，此值默认为1，所以才会出现更新失败的情况:
+                查看设置：
+                mysql> show variables like 'sql_safe%';
+                解决：
+                mysql> set sql_safe_updates=0; 
+                mysql> set sql_safe_updates=off;   
+                ——————————————
         mysql>select host, user from user;
     2. 授权法。例如，你想myuser使用mypassword从任何主机连接到mysql服务器的话。
         GRANT ALL PRIVILEGES ON *.* TO 'myuser'@'%' IDENTIFIED BY 'mypassword' WITH GRANT OPTION;
