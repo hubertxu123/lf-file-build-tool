@@ -406,6 +406,7 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
         . /etc/profile   --加载更新后的系统配置
     5.验证maven安装成功：
         maven -version
+        mvn -v 
     
 **8.tomcat安装配置：**   
     
