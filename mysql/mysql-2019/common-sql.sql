@@ -154,5 +154,7 @@ SELECT
 -- 删除数据表
 drop TABLE if EXISTS temp1;
 
+-- 当结果提示警告时，可以使用以下语句查看警告
+show warnings ;
 
 
