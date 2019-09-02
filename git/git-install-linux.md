@@ -25,3 +25,8 @@
         终端命令:cd /usr/bin/git(这个是一般的默认位置)
         删除命令
         rm -rf git*
+        
+**2.使用：**
+
+    以线上为主抛弃本地代码：git reset --hard origin/master
+    rpm -ql git   查看git的安装路径是/usr/bin/git
