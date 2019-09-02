@@ -3,7 +3,7 @@
 
     1.介绍:yum源上自动安装的git版本为1.7，所以需要掌握手动编译安装git方法。
     2.安装git依赖包
-      　　yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel gcc perl-ExtUtils-MakeMaker
+      　　yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel gcc perl-ExtUtils-MakeMaker -y  
     3.删除已有的git
       　　yum remove git
     4.下载：
