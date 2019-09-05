@@ -141,6 +141,11 @@ ALTER TABLE temp11 engine=InnoDB;
 show create TABLE temp4;
 DESCRIBE temp4;
 desc temp4;
+-- 组装json
+SELECT
+       CONCAT('{',GROUP_CONCAT(CONCAT('"',COLUMN_NAME,'":0') SEPARATOR ","),'}'),
+       COUNT(0) FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = 'ziniu' AND TABLE_NAME = 't_s_post_want_zn';
 -- 组装sql insert
 SELECT
        CONCAT('insert into ',TABLE_NAME,'(',GROUP_CONCAT(COLUMN_NAME SEPARATOR ","),') values (',GROUP_CONCAT('?' SEPARATOR ","),')') as `sql`,
