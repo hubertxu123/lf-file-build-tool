@@ -75,7 +75,7 @@
         time：'10:00:00' 时分秒  
         year：占一个字节，可插入4位的字符串或数字 取值范围为1901-2155，不在此范围则默认插入 0000 
     4.字符串类型:可存储字符串，图片，声音的二进制
-        char:0-255字符，char(4) 定长为4 如插入【ab  】 ，则实际为 (ab),两个空格被删除
+        char:0-255字符，char(4) 定长为4 如插入【ab  】 ，则实际为 (ab),尾部空格被自动删除
         varchar:0-65535,varchar(4)，变长为4，如插入【ab  】，则实际为(ab  ),两个空格会被保留
         binary:
         varbinary:
@@ -84,7 +84,66 @@
         enum:枚举类型，字符串对象
         set:
 
-**6.mysql数据类型选择：**
+**6.mysql数据类型选择：选用合适且精确的类型**
+    
+    1.货币等精度较高的类型:选择定点数 decimal
+    2.datetime 和 timestamp的区别：
+        ·存储方式不同：跨时区业务timestamp更合适
+            TIMESTAMP:把客户端插入的时间从当前时区转化为UTC（世界标准时间）进行存储。查询时，将其又转化为客户端当前时区进行返回。
+            DATETIME，不做任何改变，基本上是原样输入和输出
+        · 两者所能存储的时间范围不一样：
+            TIMESTAMP：'1970-01-01 00:00:01.000000' 到 '2038-01-19 03:14:07.999999'。
+            DATETIME：'1000-01-01 00:00:00.000000' 到 '9999-12-31 23:59:59.999999'。
+        ·TIMESTAMP和DATETIME的自动初始化和更新：
+            MySQL 5.6.5版本之前，Automatic Initialization and Updating只适用于TIMESTAMP，而且一张表中，最多允许一个TIMESTAMP字段采用该特性
+            MySQL 5.6.5开始，Automatic Initialization and Updating同时适用于TIMESTAMP和DATETIME，且不限制数量。
+                自动初始化指的是如果对该字段（譬如上例中的hiredate字段）没有显性赋值，则自动设置为当前系统时间。
+                自动更新指的是如果修改了其它字段，则该字段的值将自动更新为当前系统时间。
+            由于自动更新和初始化不是我们想要的，所以可以关闭此功能：
+                1.show variables like '%explicit_defaults_for_timestamp%'; 设置为 on
+                2.建表时指定默认值：
+                      `hiredate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+                      `hiredate` timestamp NULL DEFAULT NULL
+    3.char和varchar的区别：
+        char：固定长度字符，自动删除尾部空格，处理速度快于varchar
+        varchar：可变长度字符，保留原来内容
+            对于myIsam表引擎：最好使用char可以使表结构静态化 ，使检索速度更快
+            对于INNOdb引擎，char跟varchar不一定哪个更好，因为innodb不分固定长度和可变长度
+    4.BLOB和text：
+        BLOB:存储二进制类型文件
+        TEXT:存储文本文件
+
+**7.运算符介绍：**
+    
+    1.算术运算符：+ - * / %
+        /:除法会保留四位小数，四舍五入，如果分母为0，则值为null
+        %:求余数，如果分母为0，则值为null select 1/0;
+    2.比较运算符：结果总为 1,0 ，NULL
+        =:等于，不可以判断空值
+            select 1=0,1='1',null=null;         0 1 null
+        <=>:安全等于，可以判断空值
+            select 1<=>0,1<=>'1',null<=>null    0 1 1
+        !=(<>):不等于，不可以判断空值
+            select 1!=0,null!=null;             1 null
+        >,<,<=,>=:不可以判断空值
+        is null,is not null,isNUll():
+        between and值区间含端点值判断：
+            select 4 between 2 and 5; 4是否在2-5之间
+            select 'b' between 'a' and 'c' ;判断字符b是否在a-c之间
+        least最小值：select least(2,0.1);返回0.1   不可判断空值
+        greatest最大值：select greatest(2,0.1);返回2   不可判断空值
+        in/not in:
+        like:模糊查询 % 和 _  下划线只能表示一个任意字符，%则不限数量
+        regexp：正则表达式匹配
+    3.逻辑运算符：结果true false null
+        not 
+        ！
+        and 
+        &&
+        or
+        ||
+        xor
+    4.位操作运算符：
     
 
             

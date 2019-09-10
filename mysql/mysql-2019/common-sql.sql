@@ -162,4 +162,17 @@ drop TABLE if EXISTS temp1;
 -- 当结果提示警告时，可以使用以下语句查看警告
 show warnings ;
 
+-- 运算符
+-- 算术
+select 1/0;   -- NULL
+select 93/3;  -- 整除31
+select 1/3;   -- 0.3333保留4位小数，四舍五入
+-- 比较
+-- 等于
+select 1=0,1='1',null=null; -- 0 1 NULL
+-- 安全等于
+select 1<=>0,1<=>'1',null<=>null;  -- 0 1 1
+select 1<=>0,1<=>'1',null<=>1; -- 0 1 0
+-- 不等于
+select 1!=0,null!=null;
 
