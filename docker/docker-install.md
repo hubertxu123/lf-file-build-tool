@@ -5,6 +5,7 @@
     **1.windows**   
         1.win10外:www.docker.com/products/docker-toolbox
         2.win10:  www.docker.com/products/docker#/windows
+            https://get.daocloud.io/docker-install/windows
     **2.CentOS 6.5上安装docker**
         1. uname -r         --查看下你的系统内核是多少
         2. cat  /etc/issue  --查看系统版本
@@ -77,4 +78,71 @@
             ./instsll.sh
         安装部署完成之后可以通过浏览器登陆UIip:80
         默认用户名密码admin/Harbor12345
+        
+    3.登录使用：
+        1.UI登录： 默认用户名密码admin/Harbor12345
+        2.另一台服务器命令行登录：
+            [root@VM_0_9_centos ~]# docker login lsbmxy.top
+            Username: admin
+            Password: 
+            Error response from daemon: Get https://lsbmxy.top/v1/users/: dial tcp 120.79.81.98:443: connect: connection refused
+            解决：
+                在需要登陆的docker client端修改
+                    vim lib/systemd/system/docker.service
+                        在里面修改ExecStart那一行，增加【--insecure-registry=lsbmxy.top \】
+                        然后重启docker：
+                            systemctl daemon-reload
+                            systemctl restart docker
+                【harbor服务端修改：
+                    # vi /etc/docker/daemon.json
+                    {
+                        "insecure-registries":["192.168.1.30"]
+                    }
+                    1、配置http镜像仓库可信任（docker默认是通过https访问harbor的，但是私有仓库是在公司内网的话，没有必要配置https, 所以我们要在daemon.json配置harbor服务器地址被docker认为是可信任的站点;如果docker通过https访问harbor，就不需要进行如下设置）
+                    # vi /etc/docker/daemon.json
+                    {"insecure-registries":["192.168.1.30"]}
+                    格式不能写错，修改该配置后，需要重启docker服务，如果写错，重启docker会有问题。
+                    # systemctl restart docker　　#重启docker的话，要留意一下，通过docker启动的容器是否正常运行，　harbor就启动在docker容器里的，所以需要用docker-compose ps查看harbor服务状态，如果harbor状态不全是Up状态，那么使用 docker-compose up -d 再次启动所有
+                】
+        3.拉取：
+            docker run -p 81:80 --name ziniuweb -d hub.mioodo.cn/ziniu/web:20191013
+            docker run -p 82:80 --name ziniuweb -d hub.mioodo.cn/ziniu/web:20191013
+            docker pull hub.mioodo.cn/ziniu/web:20191013
+            docker push hub.mioodo.cn/ziniu/web:20191013
+            docker build -t hub.mioodo.cn/ziniu/web:20191013 .
+            docker ps -a
+            docker stop ea270dcc5713
+            docker rm ea270dcc5713
+            docker run -p 82:80 --name ziniuweb -d hub.mioodo.cn/ziniu/web:20191013
             
+        4.简单测试：
+             docker login lsbmxy.top --先登录：登录后才可以获取私有仓库镜像，否则只能拉取公有镜像
+                admin
+                xxxxx
+             mkdir project
+             cd project/
+             touch Dockerfile
+             vim Dockerfile
+                ·FROM alpine:latest
+                ·MAINTAINER xbf             --表示是xbf创建的即提交人
+                ·CMD echo "hello docker!"
+             docker build -t hello_docker .  --表示当前路径下所有内容都送给docker engine来构建image
+             docker images hello_docker      --验证是否生成本地镜像
+             docker run hello_docker         --运行镜像查看结果
+             docker tag hello_docker lsbmxy.top/ziniu/hello_docker --转换镜像格式
+             docker push lsbmxy.top/ziniu/hello_docker             --推送镜像 
+             docker push lsbmxy.top/ziniu/hello_docker:1.0         --报错，因为没有写版本号，默认为lastest 
+             docker push lsbmxy.top/library/hello_docker           --报错，没有转换镜像格式 
+             docker tag hello_docker lsbmxy.top/library/hello_docker    --转换镜像格式
+             docker push lsbmxy.top/library/hello_docker            --推送镜像
+             docker build -t hello_docker:1.0 .                     --构建版本为1.0的镜像
+             docker tag hello_docker:1.0 lsbmxy.top/ziniu/hello_docker:1.0  --转换格式
+             docker push lsbmxy.top/ziniu/hello_docker:1.0                  --推送镜像
+             docker build -t hello_docker_test:1.1 .                        
+             docker tag hello_docker_test:1.1 lsbmxy.top/ziniu/hello_docker_test:1.1
+             docker push lsbmxy.top/ziniu/hello_docker_test:1.1
+             docker pull lsbmxy.top/ziniu/hello_docker_test:1.1
+
+            
+            
+    
