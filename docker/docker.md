@@ -266,5 +266,11 @@
     docker exec -it mysql5.7 bash   --进入容器内部
     service mysql status            --查看是否启动
     service mysql start             --没有启动则执行启动
-    mysql -u root -p                --【-p表示使用密码登录】，至此安装成功
+    mysql -u root -p                --【-p表示使用密码登录】，至此安装成功，开启阿里云端口，就可以进行外部访问了
+    注意：
+        docker stop qwe112...   --平滑关闭
+        docker start qwe12...   --重新打开此服务，原来的mysql数据仍存在
+        docker restart qwe12... --重新打开此服务
+    
+**12.**
     
