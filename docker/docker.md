@@ -257,3 +257,14 @@
         --docker pull hub.c.162/library/mysql:latest
         --docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=000000 hub.c.162/library/mysql:latest
             -e 指环境变量 添加mysql管理员密码000000
+
+**11.docker安装mysql服务器：**
+
+    docker search mysql     --搜索mysql :https://hub.daocloud.io/repos/fa51c1d6-9dc2-49d9-91ac-4bbfc24a1bda
+    docker pull daocloud.io/mysql:5.7
+    docker run --name mysql5.7 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=qwe123 -d daocloud.io/mysql:5.7
+    docker exec -it mysql5.7 bash   --进入容器内部
+    service mysql status            --查看是否启动
+    service mysql start             --没有启动则执行启动
+    mysql -u root -p                --【-p表示使用密码登录】，至此安装成功
+    
