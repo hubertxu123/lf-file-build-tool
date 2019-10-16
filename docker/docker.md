@@ -288,5 +288,7 @@
           映射端口80，用于http请求；
           nginx的默认首页html的存放目录映射到host盘的目录， /home/evan/workspace/wxserver/nginx/data
           nginx的配置文件映射到host盘的文件，/home/evan/workspace/wxserver/nginx/config/nginx.conf  
+    $ 报错：Error response from daemon: oci runtime error: container_linux.go:235: starting container process caused "container init exited prematurely".
+
           
     

@@ -6,7 +6,7 @@
         1.win10外:www.docker.com/products/docker-toolbox
         2.win10:  www.docker.com/products/docker#/windows
             https://get.daocloud.io/docker-install/windows
-    **2.CentOS 6.5上安装docker**
+    **2.CentOS 6.5上安装docker**:安装docker-compose时使用
         1. uname -r         --查看下你的系统内核是多少
         2. cat  /etc/issue  --查看系统版本
                 CentOS release 6.5 （Final）
@@ -17,6 +17,34 @@
         6. rpm -qa | grep docker  --查看docker
         7. service docker start   --启动并设置开机自动启动
         8. chkconfig docker on   --启动并设置开机自动启动
+    **3.docker安装：** 暂时弃用
+        1、查看你当前的内核版本
+        uname -r
+        2、更新yum包
+        sudo yum update
+        3、卸载已安装的docker（如果安装过的话）
+         yum remove docker  docker-common docker-selinux docker-engine
+        4、安装需要的软件包
+        sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+        5、设置yum源
+        sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+        6、可以查看所有仓库中所有docker版本，并选择特定版本安装
+        yum list docker-ce --showduplicates | sort -r
+        7、重新安装docker
+        sudo yum install docker-ce
+        8、启动docker
+        sudo systemctl start docker
+        9、验证安装是否成功
+        docker version  //查看docker的版本
+        docker ps //查看当前正在运行的容器
+        10、删除原本装好的nginx容器（如果安装过）
+        docker rm nginx(容器名字或者id)
+        11、删除nginx镜像文件
+        docker images      //查看镜像文件
+        docker rmi nginx   //删除nginx镜像
+        docker rmi -f nginx     强制删除nginx镜像
+        12、重装并启动nginx
+        docker run --name nginx -d -p 80:80 nginx
         
 **2.docker-compose安装：**
     
