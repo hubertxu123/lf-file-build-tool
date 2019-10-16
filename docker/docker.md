@@ -92,6 +92,9 @@
     22.docker inspect 容器名   --容器的相关信息-可查看挂载信息
     23.docker logs -f 容器名   --查看web应用日志
     24.docker search tomcat    --搜索tomcat镜像
+    25.docker rmi $(docker images -q) --删除所有镜像
+    26.docker rmi --force $(docker images | grep doss-api | awk '{print $3}') --强制删除镜像名称中包含“doss-api”的镜像
+       
     ****************************************************************************
     docker 启动 web 示例报错如下：
         Error response from daemon: Cannot start container web: iptables failed: iptables -t nat -A DOCKER -p tcp -d 0/0 --dport 32797 -j DNAT --to-destination 172.17.0.30:5000 ! -i docker0: iptables: No chain/target/match by that name.
@@ -275,20 +278,108 @@
 **12.docker安装nginx并配置通过https访问：**
 
     $ docker pull nginx:latest
+    
+    --准备好被挂载的文件，否则在启动时，会因为找不到文件而启动失败，若挂载的为文件夹，则不需要，在执行命令时会自动创建
+        $ mkdir -p /usr/local/dockerdata/nginx/data
+        $ mkdir -p /usr/local/dockerdata/nginx/config/conf.d
+        $ mkdir -p /usr/local/dockerdata/nginx/logs
+        $ mkdir -p /usr/local/dockerdata/nginx/ssl
+        $ touch /usr/local/dockerdata/nginx/config/nginx.conf
+        $ touch /usr/local/dockerdata/nginx/config/conf.d/default.conf
     $ docker run --detach \
             --name wx-nginx \
-            -p 442:443\
-            -p 8080:80 \
+            -p 443:443\
+            -p 80:80 \
             -v /usr/local/dockerdata/nginx/data:/usr/share/nginx/html:rw\
             -v /usr/local/dockerdata/nginx/config/nginx.conf:/etc/nginx/nginx.conf/:rw\
             -v /usr/local/dockerdata/nginx/config/conf.d/default.conf:/etc/nginx/conf.d/default.conf:rw\
             -v /usr/local/dockerdata/nginx/logs:/var/log/nginx/:rw\
+            -v /usr/local/dockerdata/nginx/ssl:/ssl/:rw\
             -d nginx
           映射端口443，用于https请求
           映射端口80，用于http请求；
-          nginx的默认首页html的存放目录映射到host盘的目录， /home/evan/workspace/wxserver/nginx/data
-          nginx的配置文件映射到host盘的文件，/home/evan/workspace/wxserver/nginx/config/nginx.conf  
-    $ 报错：Error response from daemon: oci runtime error: container_linux.go:235: starting container process caused "container init exited prematurely".
+          nginx的默认首页html的存放目录映射到host盘的目录，/usr/local/dockerdata/nginx/data
+          nginx的配置文件映射到host盘的文件，启动时取外部容器配置好的文件: /usr/local/dockerdata/nginx/config/nginx.conf  
+          -d nginx 需要放在尾部
+          报错：Error response from daemon: oci runtime error: container_linux.go:235: starting container process caused "container init exited prematurely".
+            因为文件挂载时，需要提前准备，所以要先把文件放在指定挂载位置，才能正常启动
+           docker logs wx-nginx --查看当前容器的报错日志
+    $ 通过openssl生成证书: --》暂不可用
+        openssl genrsa -des3 -out server.key 1024           --设置server.key，这里需要设置两遍密码
+        openssl req -new -key server.key -out server.csr    --参数设置，首先这里需要输入之前设置的密码
+            然后需要输入如下的信息，大概填一下就可以了，反正是测试用的
+            Country Name (2 letter code) [AU]: 国家名称
+            State or Province Name (full name) [Some-State]: 省
+            Locality Name (eg, city) []: 城市
+            Organization Name (eg, company) [Internet Widgits Pty Ltd]: 公司名
+            Organizational Unit Name (eg, section) []: 
+            Common Name (e.g. server FQDN or YOUR name) []: 网站域名
+            Email Address []: 邮箱
+            Please enter the following 'extra' attributes
+            to be sent with your certificate request
+            A challenge password []: 这里要求输入密码
+            An optional company name []:
+        openssl rsa -in server.key -out server_nopwd.key    --写RSA秘钥（这里也要求输入之前设置的密码）
+        openssl x509 -req -days 365 -in server.csr -signkey server_nopwd.key -out server.crt    --获取私钥
+        完成这一步之后就得到了我们需要的证书文件和私钥了
+            server.crt
+            server.key
+        cp server.crt /usr/local/dockerdata/nginx/ssl
+        cp server.key /usr/local/dockerdata/nginx/ssl
+    $ 配置nginx服务器，支持https访问：
+        阿里云证书申请下载
+        配置说明：：https://help.aliyun.com/document_detail/98728.html?spm=5176.2020520163.0.0.12ee2d192d19IT
+        vim /usr/local/dockerdata/nginx/config/conf.d
+             server {
+                listen 443;
+                server_name lsbmxy.top;  # localhost修改为您证书绑定的域名。
+                ssl on;   #设置为on启用SSL功能。
+                root html;
+                index index.html index.htm;
+                ssl_certificate /ssl/2949196_lsbmxy.top.pem;   #将domain name.pem替换成您证书的文件名。
+                ssl_certificate_key /ssl/2949196_lsbmxy.top.key;   #将domain name.key替换成您证书的密钥文件名。
+                ssl_session_timeout 5m;
+                ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;  #使用此加密套件。
+                ssl_protocols TLSv1 TLSv1.1 TLSv1.2;   #使用该协议进行配置。
+                ssl_prefer_server_ciphers on;
+                 # 定义首页索引目录和名称
+                 location / {
+                    root   /usr/share/nginx/html;
+                    index  index.html index.htm;
+                 }
+            
+                #重定向错误页面到 /50x.html
+                error_page   500 502 503 504  /50x.html;
+                location = /50x.html {
+                    root   /usr/share/nginx/html;
+                }
+            }
+            # （可选步骤）设置http请求自动跳转https。强制跳转
+            # 在需要跳转的http站点下添加以下rewrite语句，实现http访问自动跳转到https页面
+            server {
+             listen 80;
+             server_name lsbmxy.top;
+             rewrite ^(.*)$ https://$host$1 permanent;
+             location / {
+                 root   /usr/share/nginx/html;
+                 index  index.html index.htm;
+            }
+            }
+        docker stop ...     --停止此容器，修改文件
+        docker start ...    --开启此容器
+        docker ps           --查看启动状态
+        docker logs 【容器名称】  --启动失败查看日志
+        访问：
+            https://lsbmxy.top/xx.html 或者 lsbmxy.top/xx.html 会出现想要的静态内容
+            访问 lsbmxy.top会403，目录会被隐藏 ，而文件不会，所以以上访问没问题
+        调整：
+            vim /usr/local/dockerdata/nginx/config/conf.d
+                添加：aotuindex on; 访问lsbmxy.top就可以看见文件夹路径了
+                表示：aotuindex on是隐藏了文件目录，并没有隐藏文件本身，也就是文件是能访问的，而目录不能访问
+        
+        
+        
+    
 
           
     
