@@ -79,6 +79,16 @@
         安装部署完成之后可以通过浏览器登陆UIip:80
         默认用户名密码admin/Harbor12345
         
+        【docker-compose ps   --查看是否正常
+        docker-compose stop    -- 停止harbor
+        ./install.sh           -- 重新启动并生成配置文件 
+        systemctl daemon-reload             --重新启动
+        systemctl restart docker.service    --重新启动】
+        # systemctl restart docker　　#重启docker的话，要留意一下，通过docker启动的容器是否正常运行，　
+        harbor就启动在docker容器里的，所以需要用docker-compose ps查看harbor服务状态，如果harbor状态不全是Up状态，
+        那么使用 docker-compose up -d 再次启动所有
+              
+        
     3.登录使用：
         1.UI登录： 默认用户名密码admin/Harbor12345
         2.另一台服务器命令行登录：
@@ -142,7 +152,45 @@
              docker tag hello_docker_test:1.1 lsbmxy.top/ziniu/hello_docker_test:1.1
              docker push lsbmxy.top/ziniu/hello_docker_test:1.1
              docker pull lsbmxy.top/ziniu/hello_docker_test:1.1
+        5.Harbor使用修改80端口：
+            cd /usr/local/harbor    --进入安装目录
+            vim docker-compose.yml  --修改文件端口号
+                proxy:
+                    image: nginx:1.11.5
+                    container_name: nginx
+                    restart: always
+                    volumes:
+                      - ./common/config/nginx:/etc/nginx
+                    ports:
+                      - 1180:80     --修改映射端口80 为 1180
+                      - 1143:443    --修改https端口1143 为443
+                    depends_on:
+                      - mysql
+                      - registry
+                      - ui
+                      - log 
+            vim common/templates/registry/config.yml -- 添加端口1180
+                auth:
+                  token:
+                    issuer: registry-token-issuer
+                    realm: $piblic_url:1180/service/token
+                    rootcertbundle: /etc/registry/root.crt
+                    service: token-service
+            docker-compose stop     --停止harbor
+            ./install.sh           --生成配置文件
+            vim /usr/lib/systemd/system/docker.service  --修改如下一行：添加端口 修改docker启动文件，设置信任的主机与端口：
+                ExecStart=/usr/bin/dockerd --insecure-registry=lsbmxy.top:1180 
+            systemctl daemon-reload --重启
+            systemctl restart docker.service --重启
+            docker-compose ps           --查看harbor启动是否正常
+            docker-compose up -d        --如果harbor状态不全是Up状态，那么再次启动所有
+            --验证登录：
+                [root@izwz93pjjhxv6fzgl5jzbwz harbor]# docker login lsbmxy.top:1180
+                Username: admin
+                Password: 
+                Login Succeeded
 
+             
             
             
     

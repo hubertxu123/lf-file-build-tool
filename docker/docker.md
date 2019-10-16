@@ -272,5 +272,22 @@
         docker start qwe12...   --重新打开此服务，原来的mysql数据仍存在
         docker restart qwe12... --重新打开此服务
     
-**12.**
+**12.docker安装nginx并配置通过https访问：**
+
+    $ docker pull nginx:latest
+    $ docker run --detach \
+            --name wx-nginx \
+            -p 442:443\
+            -p 8080:80 \
+            -v /usr/local/dockerdata/nginx/data:/usr/share/nginx/html:rw\
+            -v /usr/local/dockerdata/nginx/config/nginx.conf:/etc/nginx/nginx.conf/:rw\
+            -v /usr/local/dockerdata/nginx/config/conf.d/default.conf:/etc/nginx/conf.d/default.conf:rw\
+            -v /usr/local/dockerdata/nginx/logs:/var/log/nginx/:rw\
+            -v /usr/local/dockerdata/nginx/ssl:/ssl/:rw\
+            -d nginx
+          映射端口443，用于https请求
+          映射端口80，用于http请求；
+          nginx的默认首页html的存放目录映射到host盘的目录， /home/evan/workspace/wxserver/nginx/data
+          nginx的配置文件映射到host盘的文件，/home/evan/workspace/wxserver/nginx/config/nginx.conf  
+          
     
