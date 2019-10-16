@@ -176,3 +176,9 @@ select 1<=>0,1<=>'1',null<=>1; -- 0 1 0
 -- 不等于
 select 1!=0,null!=null;
 
+# Mysql添加和删除唯一索引、主键
+
+# 添加 ALTER TABLE `table_name` ADD PRIMARY KEY ( `column` );
+# 删除 ALTER TABLE `table_name` DROP PRIMARY KEY;
+# 添加 ALTER TABLE `table_name` ADD UNIQUE ( `column` );
+# 删除 ALTER TABLE `table_name` DROP INDEX `column`;
