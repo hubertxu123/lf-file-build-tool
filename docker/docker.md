@@ -278,7 +278,8 @@
 **12.docker安装nginx并配置通过https访问：**
 
     $ docker pull nginx:latest
-    
+    --1.准备nginx.conf：见当前路径下
+    --2.准备default.conf：见当前路径下
     --准备好被挂载的文件，否则在启动时，会因为找不到文件而启动失败，若挂载的为文件夹，则不需要，在执行命令时会自动创建
         $ mkdir -p /usr/local/dockerdata/nginx/data
         $ mkdir -p /usr/local/dockerdata/nginx/config/conf.d
@@ -329,7 +330,7 @@
     $ 配置nginx服务器，支持https访问：
         阿里云证书申请下载
         配置说明：：https://help.aliyun.com/document_detail/98728.html?spm=5176.2020520163.0.0.12ee2d192d19IT
-        vim /usr/local/dockerdata/nginx/config/conf.d
+        vim /usr/local/dockerdata/nginx/config/conf.d/default.conf
              server {
                 listen 443;
                 server_name lsbmxy.top;  # localhost修改为您证书绑定的域名。
