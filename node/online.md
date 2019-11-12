@@ -96,8 +96,23 @@
 
   ***node后台启动:*******************************************************************
    nohup command & node www & 
+   
+   
+ **angular打包放在nginx上****************************************************  
+ ng build --prod --aot
+ angular打包项目最小化命令：
+  sudo ng build --prod --aot --build-optimizer --source-map=false
+  --内存溢出执行以下命令：
+  node --max-old-space-size=7000 node_modules/.bin/ng build --prod --aot
+  node --max-old-space-size=7000 node_modules/.bin/ng build --aot
+  ● 优点
+  ● -1.预编译
+  ● -2.代码压缩
+  ● -3.去掉源程序映射，优化项目体积，打包后vender不到250kb,服务器启用gzip后，vender 大约85kb
 
-
+    当使用生产配置(通过ng build --prod或 ng build --configuration=production)时
+    
+    src/environments/environment.ts文件将被替换为src/environments/environment.prod.ts
 
 
 
