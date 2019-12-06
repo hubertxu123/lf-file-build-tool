@@ -10,4 +10,4 @@ docker logs rabbit-management
 
 
 ### 2.
-docker run -d --hostname rabbit-host --name rabbitmq -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+docker run -d --hostname rabbit-host --name rabbitmq -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=pwd -p 15672:15672 -p 5672:5672 rabbitmq:3-management
