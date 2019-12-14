@@ -29,5 +29,6 @@
       
       ng serve --disableHostCheck=true
 
-      
+    4.若需要https访问：
+        可以在阿里云服务器上启动个nginx配置好安全证书，然后将域名转发至该地址
       
