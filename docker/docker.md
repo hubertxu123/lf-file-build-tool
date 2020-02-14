@@ -294,8 +294,10 @@
             -v /usr/local/dockerdata/nginx/data:/usr/share/nginx/html:rw\
             -v /usr/local/dockerdata/nginx/config/nginx.conf:/etc/nginx/nginx.conf/:rw\
             -v /usr/local/dockerdata/nginx/config/conf.d/default.conf:/etc/nginx/conf.d/default.conf:rw\
+            ===========================以下两行在新版里面可能不存在，可去掉执行
             -v /usr/local/dockerdata/nginx/logs:/var/log/nginx/:rw\
             -v /usr/local/dockerdata/nginx/ssl:/ssl/:rw\
+            ===========================
             -d nginx
           映射端口443，用于https请求
           映射端口80，用于http请求；
