@@ -1,0 +1,19 @@
+Windows开机自动启动VMware，虚拟机也启动
+
+首先在系统中创建vm_start_mylinux.bat的文件，
+
+用编辑器打开，写下：
+
+
+"C:\Program Files (x86)\VMware\VMware VIX\vmrun.exe" start "F:\Users\heguigui\Documents\Virtual Machines\mylinux.vmx"保存。
+（start前后有空格）
+
+
+其中：
+
+       "C:\Program Files (x86)\VMware\VMware VIX\vmrun.exe" 为VMware的全路径
+       "F:\Users\heguigui\Documents\Virtual Machines\mylinux.vmx"为虚拟机的全路径
+
+然后将vm_start_mylinux.bat放入目录C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp。
+最后重启机器即可完成自动重启
+
