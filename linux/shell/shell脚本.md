@@ -1,7 +1,7 @@
 
 #参考菜鸟教程:http://www.runoob.com/linux/linux-shell-passing-arguments.html
 
-**1.shell：**
+**1.shell：是一个用 C 语言编写的程序，它是用户使用 Linux 的桥梁。Shell 既是一种命令语言，又是一种程序设计语言**
     
     1.新建test.sh
         -----------------
@@ -126,4 +126,3 @@
             -7.$-	显示Shell使用的当前选项，与set命令功能相同。
             -8.$?	显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误。
             
-        
