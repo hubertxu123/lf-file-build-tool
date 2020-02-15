@@ -3,7 +3,8 @@
 **1.docker搭建Maven私服：**
 
     1.docker pull sonatype/nexus3
-    2.docker run --rm -d --privileged=true -p 8081:8081 --name nexus -v /root/nexus-data:/var/nexus-data sonatype/nexus3
+    2.docker run  -d --privileged=true -p 8081:8081 --name nexus -v /root/nexus-data:/var/nexus-data sonatype/nexus3
+    2.不要使用此命令：一旦关闭，则会删除docker run --rm -d --privileged=true -p 8081:8081 --name nexus -v /root/nexus-data:/var/nexus-data sonatype/nexus3
     3.docker ps --> 查看容器id
     4.docker exec -it 16038 bash    -->进入容器内部
     5.cd /opt/sonatype/sonatype-work/nexus3     获取登录密码
