@@ -22,6 +22,8 @@
         [root@centos shell-sh]# sed 's/\r//g' testhost.sh > testhost.sh 
         [root@centos shell-sh]# cat -v testhost.sh
         [root@centos shell-sh]#
-    3.主要命令：将原文件进行格式转换为新文件
-        sed 's/\r//g' testhost.sh > testhost.sh 
+    3.主要命令：将原文件进行格式转换为新文件【一定是新文件-否则文件内容会丢失】
+        sed 's/\r//g' testhost.sh > testhost2.sh 
+        chmod +x testhost2.sh
+        
         
