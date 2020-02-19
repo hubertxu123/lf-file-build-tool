@@ -3,6 +3,7 @@
 #sehll教程
 #示例脚本:https://blog.csdn.net/shang_feng_wei/article/details/90247218
 #示例脚本:https://blog.csdn.net/chenguolinblog/article/details/28756093?utm_source=distribute.pc_relevant.none-task
+#示例脚本:https://blog.csdn.net/SU_Devops/article/details/86653070
 
 **1.shell的基本介绍：**
 
