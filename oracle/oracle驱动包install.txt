@@ -1,0 +1,11 @@
+
+驱动包下载：
+
+链接：https://pan.baidu.com/s/1dnfJsGwRADQw-xo9ARtIOA 
+提取码：mezv 
+
+
+下载后放在d盘下，然后执行以下命令
+
+mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=11.2.0 
+-Dpackaging=jar -Dfile=D:\ojdbc14-11.2.0.jar
