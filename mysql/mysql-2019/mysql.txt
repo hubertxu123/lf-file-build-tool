@@ -1,0 +1,49 @@
+
+
+-- 此种方式在重启服务后失效
+show variables like 'group_concat_max_len'
+SET GLOBAL group_concat_max_len = 102400;
+SET SESSION group_concat_max_len = 102400;
+
+
+-- 修改my.ini
+在[mysqld]下新增配置：group_concat_max_len = 102400
+重启，
+当配置为group_concat_max_len=-1时，即表示不知需要多大字节，即2^32-1 = 4294967295;
+
+
+--查看sql_mode：
+select @@sql_mode 查看
+
+
+set sql_mode='';
+set sql_mode='NO_ENGINE_SUBSTITUTION';
+
+-- 临时修改全局sql_mode生效
+select @@global.sql_mode;
+
+-- set @@global.sql_mode='NO_ENGINE_SUBSTITUTION';
+
+
+update from t_s_from set name=? where id = ?;
+
+ddddd,is_use=0;;
+
+
+?id=15&name=qqqq&sign="xxxxxx"
+
+
+
+
+
+https://github.com/a982338665/DOCRecord/delete/master/DOCRecord/A_SSMDEMO_Test_html/WebContent/WEB-INF/lib/commons-collections-3.1.jar
+
+
+
+
+
+
+
+
+
+
