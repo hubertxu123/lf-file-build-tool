@@ -1,5 +1,6 @@
 
 驱动包下载：
+百度网盘：20190811-soft/maven私服依赖
 
 链接：https://pan.baidu.com/s/1dnfJsGwRADQw-xo9ARtIOA 
 提取码：mezv 
