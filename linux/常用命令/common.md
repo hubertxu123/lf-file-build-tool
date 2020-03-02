@@ -106,6 +106,100 @@
                  ./test.sh           --执行文件
              3.chown -R root:root jdk1.8/    --将jdk1.8这个文件夹的用户归属改为root用户组下的root用户
              
-        
+**2.vm中centos和windows交互问题：**
     
-            
+    本机linux初设用户名密码：
+    linux：=
+    	--admin	
+    	--root
+    ------------------------------------------------------
+    linux下鼠标不可见：
+    	--重新登陆
+    ------------------------------------------------------
+    linux桌面切换dos终端：
+    	--Ctrl+alt+F2 或者F3-5
+    	--切换回桌面：Ctrl+alt+F1
+    linux图形切面打开dos窗口
+    	--Applications--SystemTools--Terminal
+    ------------------------------------------------------
+    linux从dos终端切换到桌面：
+    	--Ctrl+alt+F1
+    linux在dos命令中登录后如何退出：
+    	--exit
+    window10系统下用虚拟机创建出的linux系统进行鼠标切换时：
+    	--Ctrl+alt
+
+**3.linux设置静态ip地址：**
+
+    ·以管理员身份运行
+    	su root
+    ·查看ip地址：
+    	ifconfig -a  或者 ip add
+    	记住ip：102.168.6.128/24
+    ·设置静态地址：
+    	vi /etc/sysconfig/network-scripts/ifcfg-eth0
+    	新增：
+    	IPADDRO=192.168.6.128
+    	GATEWAYO=192.168.6.1
+    	DNS1=192.168.6.1
+    	PREFIXO=24
+    	修改：
+    	#BOOTPROTO=dhcp(dhcp为自动分配ip地址,我们把他注释了，在下面另外加)
+    	BOOTPROTO=static(新添加)
+    ·重启网卡： service network restart
+    ·保存退出：
+    	:wq
+    	:q!---强制退出不保存
+    ·重启：shutdown -r now
+    
+**重要：**
+
+    1. 查看tomcat进程
+        ps -aux | grep tomcat
+        （或者ps -ef | grep tomcat都行）
+        [plain] view plain copy
+            root      1537  0.1  3.7 12829256 1248140 ?    Sl   Oct13   <span style="font-family: Arial, Helvetica, sans-serif;">...（这里其它内容省略）</span>  
+            tomcat7  14177  1.3  0.3 3202376 124332 ?      Sl   10:02   <span style="font-family: Arial, Helvetica, sans-serif;">...（这里其它内容省略）</span>  
+        可以看到现在运行着两个tomcat进程，一个进程的pid为1537，另一个pid为14177。
+    2. 根据进程查看端口号
+        sudo netstat -naop | grep 14177
+        可以看到8055和8088端口号被占用，其中805是tomact Server的SHUTDOWN的端口号，8088是tomcat的CATALINA Service的Connector的端口号。
+    3. 根据端口号查看进程
+        sudo lsof -i:8088
+        [plain] view plain copy
+
+
+**3.其他：**
+
+    ————————————————————————————————————————
+    搜索文件夹：
+    	find / -name pub 搜索遍历当前文件夹下的指定的pub文件夹
+    	
+    查看linux系统下的所有用户：
+    	grep bash /etc/passwd 就可以得到所有的普通用户
+    查看系统所有用户信息：
+    	cat /etc/passwd
+    删除linux用户信息：
+    	userdel  xiaoluo  
+    	·不能删除该用户账号所有相关信息，再次创建此用户时，会报错
+    	·只是删除掉了/etc/passwd、/etc/shadow、/etc/group/、/etc/gshadow四个文件里的该账户和组的信息
+    完全删除账号：
+    	1.userdel -r xiaoluo
+    	2.userdel xiaoluo 
+    	  find / -name "*xiaoluo*"
+              使用rm -rf 删除
+    查看用户组：
+    	1.groups yonguhming
+    查看/etc/group 文件
+    	1.cat /etc/group | sort			查询结果排序	
+    	2.cat /etc/group | grep -E "shiyanlou"  查询结果过滤
+    	root1:x:5000:
+    	以上内容分别表示用户组，密码(x表示密码不可见)，GID，该用户组包含的用户
+    命令重启linux：
+    	shutdown -r now 立即重启 
+    	reboot		立即重启
+    	shutdown -h now 立即关机
+    	shutdown -h 5 	5分钟后关机
+    	shutdown -r 5 	5分钟后重启
+    
+    		            

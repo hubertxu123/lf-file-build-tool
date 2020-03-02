@@ -1,0 +1,47 @@
+﻿————————————————————————
+
+1.关闭VMware的DHCP设置!
+
+编辑->虚拟机网络配置
+
+选择VMnet8，取消勾选"使用本地DHCP服务将IP地址分配给虚拟机"选项
+
+点击"NAT设置"查看一下GATEWAY地址：
+	网关IP是	192.168.133.2
+	子网掩码是	255.255.255.0
+	子网IP为	192.168.133.0
+子网ip的意思是：
+	1.要在此网段添加机器，机器IP必须在0-255
+	2.0一般为网段ip--不用
+	3.255广播ip不用
+	4.2网关ip
+	--------
+	所以除了0,2,255外选择
+
+点击"确定"就完成了关闭VMware的DHCP设置!
+
+
+————————————————————————
+2.设置CentOS的静态IP
+
+涉及文件：
+vi /etc/sysconfig/network-scripts/ifcfg-eth0（网卡）
+	DEVICE=eth0
+	HWADDR=00:01...
+	TYPE=Ethernet
+	UUID=...
+	ONBOOT=yes		开机启动
+	NM_CONTROLLED=no	网络管理组件是否启用
+	BOOTPROTO=static	网络分配方式-静态
+	IPADDR=192.168.133.99	指定ip
+	NETMASK=225.225.225.0	子网掩码
+	GATEWAY=192.162.133.2	网关ip
+vi /etc/sysconfig/network（主机名）
+	有需要修改没有不修改
+vi /etc/resolv.conf（DNS）
+	nameserver 192.168.133.2 填写对应的des域名解析服务器ip
+
+
+
+
+·重启网卡： service network restart

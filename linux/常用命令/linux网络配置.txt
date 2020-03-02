@@ -1,0 +1,41 @@
+﻿-----------------------------------------------------
+以搭建hadoop为基础：
+
+---
+1.用户新建：默认在/home目录下创建hadoop用户的工作目录
+	$ useradd hadoop
+	$ passwd hadoop
+2.修改主机名:
+	$ vi /etc/sysconfig/network
+	  NETWORKING=yes
+	  HOSTNAME=master
+3.配置网络连接：
+	$ vi /etc/sysconfig/network-scripts/ifcfg-eth0
+	  DEVICE=eth0
+	  HWADDR=00:1A:A0:9D:FA:34
+	  ONBOOT=yes          --ONBOOT参数必须设置为yes，负责重启后网络不会自启动
+	  IPADDR=10.1.5.229
+	  NETMASK=255.255.255.0
+	  GATEWAY=10.1.5.254
+	  DNS1=202.106.0.20
+	$ service network restart  重启网络
+	$ ping www.baidu.com	   验证
+4.防火墙和selinux：自带的安全系统
+
+·禁用selinux：
+	$ vi /etc/sysconfig/selinux
+	  SELINUX=enabled
+	  SELINUX=disabled
+·禁用iptables：
+	$ service iptables stop  --关闭防火墙
+	$ chkconfig iptables off --开机不自启防火墙
+·不禁用iptables，添加端口过滤
+	$ vi /etc/sysconfig/iptables
+	  -A INPUT -m state --state NEW -m tcp -p tcp --dport 50030 -j ACCEPT
+	$ service iptables restart --重启防火墙
+5.sudo安装配置：--希望能够在不切换到root用户的情况下，执行某些root权限的行为，这就需要用到sudo命令
+	$ yum list installed | grep sudo 	--产看是否安装
+	$ yum install sudo			--安装
+	$ visudo 				--自动打开 /etc/sudoer 文件
+	  hadoop    ALL=(ALL)       ALL  	--添加后变更会及时生效
+	$ sudo service network restart		--不需要root权限便可以执行网络重启
