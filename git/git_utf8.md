@@ -232,106 +232,106 @@
 **--5.查看远程仓库详细信息：**
 
 	$ git remote show [remote-name] 
---6.重命名远程仓库：
-	$ git remote rename pb paul（pb重命名为paul）
---7.不在贡献代码时，删除本地远程仓库地址
-	$ git remote rm paul（paul为仓库名称）
-==================================================================================
---1.列出已有标签：（发布版本时打标签）
-	$ git tag（列标签）
-	$ git tag -l 'v1.4.2.*'（模糊查询标签）
---2.新建标签：
-	--轻量级标签：临时性加注标签
-	--含附注标签：是存储在仓库中的独立对象，有自身的校验和信息（为保留重要信息，故常使用此标签）
-	$ git tag -a v1.4 -m 'my version 1.4'（常用标签-第二种：v1.4为标签名称，引号内为附注内容）
---3.查看标签详细信息：
-	$ git show v1.4 (包含提交记录，与修改内容均会显示)
---4.签署标签：（如有私钥可以用 GPG 来签署标签，只需要把之前的 -a 改为 -s）--signed
-	$ git tag -s v1.5 -m 'my signed 1.5 tag'
--------------
---5.轻量级标签实际上就是一个保存着对应提交对象的校验和信息的文件。要创建这样的标签，一个 -a，-s 或 -m 选项都不用，直接给出标签名字即可：
-	$ git tag v1.4-lw(v1.4-lw即为轻量标签的名字)
---6.验证标签:
-	可以使用 git tag -v [tag-name] （译注：取 verify 的首字母）的方式验证已经签署的标签。
-	此命令会调用 GPG 来验证签名，所以你需要有签署者的公钥，存放在 keyring 中，才能验证：
-	$ git tag -v v1.4.2.1
-	若是没有签署者的公钥，会报告类似下面这样的错误：
-		gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
-   		 gpg: Can't check signature: public key not found
-  		 error: could not verify the tag 'v1.4.2.1'
---7.后期加注标签
-	你甚至可以在后期对早先的某次提交加注标签。比如在下面展示的提交历史中：
-	$ git log --pretty=oneline
-    		15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
-    		a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support
-    		0d52aaab4479697da7686c15f77a3d64d9165190 one more thing
-    		6d52a271eda8725415634dd79daabbc4d9b6008e Merge branch 'experiment'
-    	------
-	$ git tag -a v1.2 6d52a271(对应提交对象的校验和（或前几位字符）:上面一行的前几位数字)
-	-->打开文件-->i开始编辑-->去掉版本前#号-->esc-->:wq保存退出
-	$ git log --pretty=oneline(即可看见后加版本)
---8.推送标签到远程服务器：
-	--推送一个：$ git push FirstGitHUb v1.4（远程服务器名称+版本推送）
-	--推送全部：$ git push origin --tags （origin为远程服务器名称）
---9.自动补全：
-	Git 命令的时候可以敲两次跳格键（Tab），就会看到列出所有匹配的可用命令建议：
-	$ git co<tab><tab>
-   		 commit config
---10.命令起别名：
-	$ git config --global alias.co checkout
-        $ git config --global alias.br branch
-        $ git config --global alias.ci commit
-        $ git config --global alias.st status
-	$ git config --global alias.unstage 'reset HEAD --'
-	现在，如果要输入 git commit 只需键入 git ci 即可。
-	这样一来，下面的两条命令完全等同：
-	$ git unstage fileA
-   	$ git reset HEAD fileA
-	显然，使用别名的方式看起来更清楚。另外，我们还经常设置 last 命令：
-	$ git config --global alias.last 'log -1 HEAD'
-	然后要看最后一次的提交信息，就变得简单多了：
-	$ git last
-   	commit 66938dae3329c7aebe598c2246a8e6af90d04646
-    	Author: Josh Goebel <dreamer3@example.com>
-    	Date: Tue Aug 26 19:48:51 2008 +0800
-    	test for current head
-    	Signed-off-by: Scott Chacon <schacon@example.com>
-	可以看出，实际上 Git 只是简单地在命令中替换了你设置的别名。
-	不过有时候我们希望运行某个外部命令，而非 Git 的子命令，这个好办，只需要在命令前加上 ! 就行。
-	如果你自己写了些处理 Git 仓库信息的脚本的话，就可以用这种技术包装起来。
-	作为演示，我们可以设置用 git visual 启动 gitk：
-	$ git config --global alias.visual '!gitk'
-==================================================================================
---Git Bash打开文件以utf-8：
-	--文件必须为utf-8编码（设置windows中文件默认编码为utf-8）
-	--黑窗口--右键options--Text——修改编码
-==================================================================================
---1.git的分支：
-	--提交-->会保存一个对象，包含内容如下:
-		--1.一个指向暂存内容快照的指针
-		--2.本次提交的作者等相关附属信息
-		--3.零个或多个指向该提交对象的父对象指针
-		   首次提交没有直接祖先，普通提交有一个祖先，两个或多个分支合并产生的提交则有多个祖先。
---2.创建分支：
-	$ git branch testing(在当前 commit 对象上新建一个分支指针,此时只是新建分支，并未指向)
-	HEAD：一个特别的指针（git用此来判断当前在哪个分支上工作）
---3.切换分支：
-	$ git checkout testing（将当前分支切换到testing，即HEAD指向此分支）
-	--分支新建的实质：
-	--实际上仅是一个包含所指对象校验和（40 个字符长度 SHA-1 字串）的文件，所以创建和销毁一个分支就变得非常廉价。
-	--新建一个分支就是向一个文件写入 41 个字节（外加一个换行符）
-	--因为每次提交总是记录其祖先信息，所以可以很快完成分支创建和切换，合并分支是也以此为基础
---4.创建分支并切换至此分支：
-	$ git checkout -b iss53（等同于创建分支+切换分支）	
-	---
-==================================================================================
---5.面试：假如此时你在：
-    	开发某个网站。
-    	为实现某个新的需求，创建一个分支。
-    	在这个分支上开展工作。
-	假设此时，你突然接到一个电话说有个很严重的问题需要紧急修补，那么可以按照下面的方式处理：
-    	--返回到原先已经发布到生产服务器上的分支。
-    	--为这次紧急修补建立一个新分支，并在其中修复问题。
-    	--通过测试后，回到生产服务器所在的分支，将修补分支合并进来，然后再推送到生产服务器上。
-    	--切换到之前实现新需求的分支，继续工作。
-==================================================================================
+    --6.重命名远程仓库：
+        $ git remote rename pb paul（pb重命名为paul）
+    --7.不在贡献代码时，删除本地远程仓库地址
+        $ git remote rm paul（paul为仓库名称）
+    ==================================================================================
+    --1.列出已有标签：（发布版本时打标签）
+        $ git tag（列标签）
+        $ git tag -l 'v1.4.2.*'（模糊查询标签）
+    --2.新建标签：
+        --轻量级标签：临时性加注标签
+        --含附注标签：是存储在仓库中的独立对象，有自身的校验和信息（为保留重要信息，故常使用此标签）
+        $ git tag -a v1.4 -m 'my version 1.4'（常用标签-第二种：v1.4为标签名称，引号内为附注内容）
+    --3.查看标签详细信息：
+        $ git show v1.4 (包含提交记录，与修改内容均会显示)
+    --4.签署标签：（如有私钥可以用 GPG 来签署标签，只需要把之前的 -a 改为 -s）--signed
+        $ git tag -s v1.5 -m 'my signed 1.5 tag'
+    -------------
+    --5.轻量级标签实际上就是一个保存着对应提交对象的校验和信息的文件。要创建这样的标签，一个 -a，-s 或 -m 选项都不用，直接给出标签名字即可：
+        $ git tag v1.4-lw(v1.4-lw即为轻量标签的名字)
+    --6.验证标签:
+        可以使用 git tag -v [tag-name] （译注：取 verify 的首字母）的方式验证已经签署的标签。
+        此命令会调用 GPG 来验证签名，所以你需要有签署者的公钥，存放在 keyring 中，才能验证：
+        $ git tag -v v1.4.2.1
+        若是没有签署者的公钥，会报告类似下面这样的错误：
+            gpg: Signature made Wed Sep 13 02:08:25 2006 PDT using DSA key ID F3119B9A
+             gpg: Can't check signature: public key not found
+             error: could not verify the tag 'v1.4.2.1'
+    --7.后期加注标签
+        你甚至可以在后期对早先的某次提交加注标签。比如在下面展示的提交历史中：
+        $ git log --pretty=oneline
+                15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch 'experiment'
+                a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support
+                0d52aaab4479697da7686c15f77a3d64d9165190 one more thing
+                6d52a271eda8725415634dd79daabbc4d9b6008e Merge branch 'experiment'
+            ------
+        $ git tag -a v1.2 6d52a271(对应提交对象的校验和（或前几位字符）:上面一行的前几位数字)
+        -->打开文件-->i开始编辑-->去掉版本前#号-->esc-->:wq保存退出
+        $ git log --pretty=oneline(即可看见后加版本)
+    --8.推送标签到远程服务器：
+        --推送一个：$ git push FirstGitHUb v1.4（远程服务器名称+版本推送）
+        --推送全部：$ git push origin --tags （origin为远程服务器名称）
+    --9.自动补全：
+        Git 命令的时候可以敲两次跳格键（Tab），就会看到列出所有匹配的可用命令建议：
+        $ git co<tab><tab>
+             commit config
+    --10.命令起别名：
+        $ git config --global alias.co checkout
+            $ git config --global alias.br branch
+            $ git config --global alias.ci commit
+            $ git config --global alias.st status
+        $ git config --global alias.unstage 'reset HEAD --'
+        现在，如果要输入 git commit 只需键入 git ci 即可。
+        这样一来，下面的两条命令完全等同：
+        $ git unstage fileA
+        $ git reset HEAD fileA
+        显然，使用别名的方式看起来更清楚。另外，我们还经常设置 last 命令：
+        $ git config --global alias.last 'log -1 HEAD'
+        然后要看最后一次的提交信息，就变得简单多了：
+        $ git last
+        commit 66938dae3329c7aebe598c2246a8e6af90d04646
+            Author: Josh Goebel <dreamer3@example.com>
+            Date: Tue Aug 26 19:48:51 2008 +0800
+            test for current head
+            Signed-off-by: Scott Chacon <schacon@example.com>
+        可以看出，实际上 Git 只是简单地在命令中替换了你设置的别名。
+        不过有时候我们希望运行某个外部命令，而非 Git 的子命令，这个好办，只需要在命令前加上 ! 就行。
+        如果你自己写了些处理 Git 仓库信息的脚本的话，就可以用这种技术包装起来。
+        作为演示，我们可以设置用 git visual 启动 gitk：
+        $ git config --global alias.visual '!gitk'
+    ==================================================================================
+    --Git Bash打开文件以utf-8：
+        --文件必须为utf-8编码（设置windows中文件默认编码为utf-8）
+        --黑窗口--右键options--Text——修改编码
+    ==================================================================================
+    --1.git的分支：
+        --提交-->会保存一个对象，包含内容如下:
+            --1.一个指向暂存内容快照的指针
+            --2.本次提交的作者等相关附属信息
+            --3.零个或多个指向该提交对象的父对象指针
+               首次提交没有直接祖先，普通提交有一个祖先，两个或多个分支合并产生的提交则有多个祖先。
+    --2.创建分支：
+        $ git branch testing(在当前 commit 对象上新建一个分支指针,此时只是新建分支，并未指向)
+        HEAD：一个特别的指针（git用此来判断当前在哪个分支上工作）
+    --3.切换分支：
+        $ git checkout testing（将当前分支切换到testing，即HEAD指向此分支）
+        --分支新建的实质：
+        --实际上仅是一个包含所指对象校验和（40 个字符长度 SHA-1 字串）的文件，所以创建和销毁一个分支就变得非常廉价。
+        --新建一个分支就是向一个文件写入 41 个字节（外加一个换行符）
+        --因为每次提交总是记录其祖先信息，所以可以很快完成分支创建和切换，合并分支是也以此为基础
+    --4.创建分支并切换至此分支：
+        $ git checkout -b iss53（等同于创建分支+切换分支）	
+        ---
+    ==================================================================================
+    --5.面试：假如此时你在：
+            开发某个网站。
+            为实现某个新的需求，创建一个分支。
+            在这个分支上开展工作。
+        假设此时，你突然接到一个电话说有个很严重的问题需要紧急修补，那么可以按照下面的方式处理：
+            --返回到原先已经发布到生产服务器上的分支。
+            --为这次紧急修补建立一个新分支，并在其中修复问题。
+            --通过测试后，回到生产服务器所在的分支，将修补分支合并进来，然后再推送到生产服务器上。
+            --切换到之前实现新需求的分支，继续工作。
+    ==================================================================================
