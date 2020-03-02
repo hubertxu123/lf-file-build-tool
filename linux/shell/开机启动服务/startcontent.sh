@@ -2,7 +2,7 @@
 
 
 #开机启动docker服务：
-#/usr/local/sh/startcontent.sh > /root/result.txt 2>&1/usr/local/sh/startcontent.sh > /root/result.txt 2>&1
+#/usr/local/sh/startcontent.sh > /root/result.txt 2>&1   /usr/local/sh/startcontent.sh > /root/result.txt 2>&1
 #将以上命令加入vim /etc/rc.d/rc.local 尾部
 
 while :
