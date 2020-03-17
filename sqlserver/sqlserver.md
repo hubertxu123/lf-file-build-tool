@@ -23,3 +23,9 @@
     select name from sysobjects where xtype='V' --所有视图
     select name from sysobjects where xtype='U' --所有表
     
+    select * into 【tablename】 from 【viewName】;--将视图作为表创建
+    sp_help  v_BOM_01;--查询建表数据
+    sp_columns   v_BOM_01;--查询建表字段信息
+    select * from information_schema.columns where table_name='v_BOM_01';--查询建表字段信息
+
+**4.**
