@@ -15,3 +15,11 @@
     4.SQL Full-text Filter Daemon Launcher (MSSQLSERVER)是全文检索服务，如果你没有使用全文检索技术，那么也不需要开启
     5.SQL Server VSS Writer MicrosoftSQLServer的SQL编写器服务，允许备份和还原应用程序以便在VolumeShadowCopyService(VSS)框架中进行操作
     6.Sql Browser 服务 一般你要进行远程访问，不需要开启sql browser开启sql browser，通过：服务器ip,端口 这种方式就可以访问远程的服务器
+
+**3.Sql Server数据库用SQL语句查询方法如下：**
+    
+    select name from sysobjects where xtype='TR' --所有触发器
+    select name from sysobjects where xtype='P' --所有存储过程
+    select name from sysobjects where xtype='V' --所有视图
+    select name from sysobjects where xtype='U' --所有表
+    
