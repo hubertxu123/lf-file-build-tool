@@ -1,23 +1,11 @@
--- =============================================
--- Author: suxinyu
--- Create date: 20170612
--- Description: 根据表名自动把表格的所有建表DDL SQL转化为 MySQL的建表SQL，不包含分区表，不处理区域数据类型；执行过程中，需要把存储过程建立在需要导出的数据库中。
--- Example: exec p_tb_mssqltomysql 'orders,ordernums,channels'
--- =============================================
---存储过程建立在需要导出表结构的DB上
 
--- 使用数据库db
-USE db
--- 提交上面sql
+USE SOADB_SC
 GO
 
 
 CREATE  PROC [dbo].[p_tb_mssqltomysql]
--- 入参
 @tbsql varchar(1000)
 AS
--- 当 SET NOCOUNT 为 ON 时，不返回计数（表示受 Transact-SQL 语句影响的行数）。当 SET NOCOUNT 为 OFF 时，返回计数。
--- 结论：我们应该在存储过程的头部加上SET NOCOUNT ON 这样的话，在退出存储过程的时候加上 SET NOCOUNT OFF这样的话，以达到优化存储过程的目的。
 SET NOCOUNT ON ;
 
 --处理tablename的字符串，把tablename字符串分割成每一行存储进入表变量中
@@ -35,10 +23,7 @@ WHERE TYPE='P'  AND number>0 AND SUBSTRING(','+@tbsql,number,1)=','
 --money类型处理为float
 --timestamp处理为 timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 DECLARE @tbtype table(mssql varchar(20),mysql varchar(20))
-INSERT INTO @tbtype(mssql,mysql) values( 'bigint','bigint'),('binary','binary'),('binary','binary'),('bit','tinyint'),
-                                        ('char','char'),('date','date'),('datetime','datetime'),('datetime2','datetime'),
-                                        ('datetimeoffset','datetime'),('decimal','decimal'),('float','float'),('int','int'),
-                                        ('money','decimal'),('nchar','char'),('ntext','text'),('numeric','decimal'),('nvarchar','varchar'),('real','float'),('smalldatetime','datetime'),('smallint','smallint'),('smallmoney','decimal'),('text','text'),('time','time'),('timestamp','timestamp'),('tinyint','tinyint'),('uniqueidentifier','varchar(40)'),('varbinary','varbinary'),('varchar','varchar'),('xml','text')
+INSERT INTO @tbtype(mssql,mysql) values( 'bigint','bigint'),('binary','binary'),('binary','binary'),('bit','tinyint'),('char','char'),('date','date'),('datetime','datetime'),('datetime2','datetime'),('datetimeoffset','datetime'),('decimal','decimal'),('float','float'),('int','int'),('money','decimal'),('nchar','char'),('ntext','text'),('numeric','decimal'),('nvarchar','varchar'),('real','float'),('smalldatetime','datetime'),('smallint','smallint'),('smallmoney','decimal'),('text','text'),('time','time'),('timestamp','timestamp'),('tinyint','tinyint'),('uniqueidentifier','varchar(40)'),('varbinary','varbinary'),('varchar','varchar'),('xml','text')
 
 DECLARE @tb_exec_sql table(tbname varchar(100),sql nvarchar(max),indexs nvarchar(max))
 DECLARE @indexs_sql nvarchar(max)
@@ -103,7 +88,7 @@ BEGIN
                                     case when b.name = 'timestamp' then ' timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP '
                                          when b.name = 'uniqueidentifier' then ' varchar(40) '
                                          when b.name in ('char','nchar','nvarchar','varbinary','varchar') then ( case when a.length<0 then ' text ' else ' '+c.mysql+'('+ (case when b.name like 'n%' then cast(a.length/2 as varchar(10)) else cast(a.length as varchar(10)) end )+')'  end )
-                                         when b.name in ('decimal','float','money','numeric','smallmoney') then ' '+c.mysql+'('+ cast(a.prec as varchar(10)) +','+ cast(a.scale as varchar(10)) +') '
+                                         when b.name in ('decimal','money','numeric','smallmoney') then ' '+c.mysql+'('+ cast(a.prec as varchar(10)) +','+ cast(a.scale as varchar(10)) +') '
                                          else ' '+c.mysql+' ' end
                                     +
                                     case when a.isnullable=0 then ' not null ' else ' null ' end
