@@ -20,7 +20,7 @@
         application-dev.properties 中配有：server.port=8081
         application-prod.properties 中配有：server.port=8082
         命令：
-        [Maven启动prod配置指定Profile通过-P]:
+        [Maven启动prod配置指定Profile通过-P]: -- 【好像不可以用】
             `mvn spring-boot:run -Pprod`，但这是Maven的Profile。
         [指定spring-boot的spring.profiles.active，则必须使用]：
             `mvn spring-boot:run -Drun.profiles=test`启动test配置   
