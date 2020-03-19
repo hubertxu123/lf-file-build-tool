@@ -24,6 +24,7 @@
             `mvn spring-boot:run -Pprod`，但这是Maven的Profile。
         [指定spring-boot的spring.profiles.active，则必须使用]：
             `mvn spring-boot:run -Drun.profiles=test`启动test配置   
+            mvn spring-boot:run -Dspring-boot.run.profiles=xxx
     4.java启动：指定内部配置文件
         `java -jar -Dspring.profiles.active=test demo-0.0.1-SNAPSHOT.jar`启动test配置
         java -jar girl-0.0.1-SNAPSHOT.jar --spring.profiles.active=deve
