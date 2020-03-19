@@ -31,3 +31,6 @@
         `--spring.profiles.active=test`启动test配置
     
         
+**3.指定端口：**
+    
+    mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8999
