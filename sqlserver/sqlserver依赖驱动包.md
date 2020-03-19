@@ -12,3 +12,13 @@
 
 
 mvn install:install-file -Dfile=sqljdbc4.jar -Dpackaging=jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.0
+
+本地jar上传到私服
+    1）、可以登录私服，导入jar
+    2）、也可以使用命令上传
+mvn deploy:deploy-file -Dfile=jar包 -DgroupId=groupID -DartifactId=artifacid -Dversion=版本号 -Dpackaging=jar
+-Durl=http://ip:port/nexus/content/repositories/thirdparty/ -DrepositoryId=thirdparty
+
+示例：
+mvn deploy:deploy-file -Dfile=sqljdbc4.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.0 -Dpackaging=jar -Durl=http://10.116.24.33:8081/repository/common-jingniu/ -DrepositoryId=admin123
+
