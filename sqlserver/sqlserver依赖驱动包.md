@@ -22,3 +22,12 @@ mvn deploy:deploy-file -Dfile=jar°ü -DgroupId=groupID -DartifactId=artifacid -Dv
 Ê¾Àý£º
 mvn deploy:deploy-file -Dfile=sqljdbc4.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.0 -Dpackaging=jar -Durl=http://10.116.24.33:8081/repository/common-jingniu/ -DrepositoryId=admin123
 
+½âÊÍ£º
+mvn deploy:deploy-file 
+-Dfile=sqljdbc4.jar 
+-DgroupId=com.microsoft.sqlserver 
+-DartifactId=sqljdbc4 
+-Dversion=4.0 
+-Dpackaging=jar 
+-Durl=http://10.116.24.33:8081/repository/common-jingniu/ 
+-DrepositoryId=admin123
