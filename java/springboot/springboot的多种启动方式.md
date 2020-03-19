@@ -35,3 +35,18 @@
 **3.指定端口：**
     
     mvn spring-boot:run -Dspring-boot.run.arguments=--server.port=8999
+
+**4.jar包启动将日志配置放在外部：**
+    
+    1.设置打包jar的时候排除文件
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <excludes>
+              <exclude>*.properties</exclude>
+              <exclude>logback.xml</exclude>
+            </excludes>
+          </resource>
+        </resources>
+    2.启动的时候传入参数指定位置
+        java -jar xxx.jar --spring.config.location=D:\springconfig\ --logging.config=D:\springconfig\logback.xml
