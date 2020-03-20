@@ -1,0 +1,24 @@
+
+
+Global Config：
+
+	rm:
+		##去掉表的t_前缀
+		#if($tableInfo.obj.name.startsWith("t_"))
+		    $!tableInfo.setName($tool.getClassName($tableInfo.obj.name.substring(4)))
+		#end
+
+Template setting：
+	
+	entity:不做修改
+	其余：加入，引入上面定义的rm，截取前四位
+		$!rm 
+	controller包做相应修改
+
+
+
+
+
+
+
+Type Mapper：-- 用来做字段类型对应
