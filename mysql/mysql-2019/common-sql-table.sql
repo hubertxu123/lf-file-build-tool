@@ -182,3 +182,14 @@ select 1!=0,null!=null;
 # 删除 ALTER TABLE `table_name` DROP PRIMARY KEY;
 # 添加 ALTER TABLE `table_name` ADD UNIQUE ( `column` );
 # 删除 ALTER TABLE `table_name` DROP INDEX `column`;
+
+# 1.PRIMARY  KEY（主键索引）
+#         mysql>ALTER  TABLE  `table_name`  ADD  PRIMARY  KEY (  `column`  )
+#     2.UNIQUE(唯一索引)
+#         mysql>ALTER  TABLE  `table_name`  ADD  UNIQUE (`column` )
+#     3.INDEX(普通索引)
+#         mysql>ALTER  TABLE  `table_name`  ADD  INDEX index_name (  `column`  )
+#     4.FULLTEXT(全文索引)
+#         mysql>ALTER  TABLE  `table_name`  ADD  FULLTEXT ( `column` )
+#     5.多列索引
+#         mysql>ALTER  TABLE  `table_name`  ADD  INDEX index_name (  `column1`,  `column2`,  `column3`  )
