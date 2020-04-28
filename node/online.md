@@ -98,6 +98,7 @@
   ***node后台启动:*******************************************************************
    nohup command & node www & 
    nohup command & node ./bin/www & 
+   nohup node ./bin/www >> mss.log  2>& 1 &
    
    
  **angular打包放在nginx上****************************************************  
