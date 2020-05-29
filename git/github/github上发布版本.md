@@ -68,7 +68,7 @@
                   <server>
                      <id>github</id>
                      <username>a982338665</username>
-                     <password>XXX</password>
+                     <password>XXX[token]</password>
                   </server>
                 </servers>
             </settings>
@@ -80,7 +80,33 @@
                     <url>https://maven.pkg.github.com/a982338665/customRPC</url>
                 </repository>
             </distributionManagement>
-
+    正常发布;;;
+    
+**4.安装：**
+    
+    要引用的项目中：pom.xml添加
+        <repositories>
+                <repository>
+                    <!--此名称要和.m2/settings.xml中设置的ID一致-->
+                    <id>github</id>
+                    <url>https://maven.pkg.github.com/a982338665/customRPC</url>
+                </repository>
+                <repository>
+                    <!--此名称要和.m2/settings.xml中设置的ID一致-->
+                    <id>admin123</id>
+                    <url>http://10.116.24.33:8081/repository/common-jingniu/</url>
+                </repository>
+       </repositories>
+       添加依赖：
+       <dependency>
+                   <groupId>pers.lish</groupId>
+                   <artifactId>rpc-common</artifactId>
+                   <version>0.0.1-SNAPSHOT</version>
+       </dependency>     
         
-        
+**5.怎么设置后不需要添加其他仓库就可以下载jar：：**
+    
+    https://blog.csdn.net/hupoling/article/details/78511899
+    如何把自己的Jar包上传到 maven 官方仓库中，Maven上传图文讲解
+    将jar包托管放在中央仓库中，之后就不用再配这些了        
         
