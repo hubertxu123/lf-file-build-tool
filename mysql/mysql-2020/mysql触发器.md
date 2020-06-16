@@ -79,4 +79,17 @@
     begin
         update tmp2 set name=new.name where fid=new.id;
     end$
+    DELIMITER ; 
+
+**3.实例3：**
+    
+    DELIMITER $
+    CREATE TRIGGER user_log AFTER INSERT ON users FOR EACH ROW
+    BEGIN
+    DECLARE s1 VARCHAR(40)character set utf8;
+    DECLARE s2 VARCHAR(20) character set utf8;#后面发现中文字符编码出现乱码，这里设置字符集
+    SET s2 = " is created";
+    SET s1 = CONCAT(NEW.name,s2);     #函数CONCAT可以将字符串连接
+    INSERT INTO logs(log) values(s1);
+    END $
     DELIMITER ;
