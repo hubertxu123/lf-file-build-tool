@@ -93,3 +93,51 @@
     INSERT INTO logs(log) values(s1);
     END $
     DELIMITER ;
+
+**4.调试：**
+    
+    第一步，创建一张临时表 t (x,cc)
+    
+    第二步，set global?general_log=on；（立即生效，无需重启mysql）
+    
+    ----打开后 general_log后 mysql 会把触发器运行的每一步sql 语句写到 日志文件中?general_log_file?
+    
+    就可以根据日志输出结果来判断trigger 是哪一步异常没有执行下去；
+    
+    ####待调试的触发器如下
+    
+    CREATE DEFINER=`root`@`%` TRIGGER `t_afterinsert_to_summary` AFTER INSERT ON `a` FOR EACH ROW ?
+    begin
+    declare v1 VARCHAR( 20 );
+    declare v2 VARCHAR( 20 );
+    declare done int default 0;?
+    DECLARE?? ?mob VARCHAR ( 20 );
+    DECLARE?? ?content VARCHAR ( 500 );
+    DECLARE?? ?node_ip VARCHAR ( 20 );
+    DECLARE mobile_list CURSOR FOR ?SELECT mobile FROM?? ?c ?WHERE?? ?c.c = ?new.c1;
+    declare continue handler for not FOUND set done = 1; /*done = true;亦可*/
+    
+    
+    insert into t (x,cc) ?? ?VALUES(?? ?new.c1,?? ?'topfirest0');-------人为插入作业点
+    IF ( new.c1 = 0 ) THEN
+    ? insert into t (x,cc) ?? ?VALUES(?? ?new.c1,?? ?'firest1');-------人为插入作业点
+    ? select b into v1 from b where b.a=new.c1;
+    ?? ?set v2=new.c1;
+    ?? ?insert into t (x,cc) ?? ?VALUES(?? ?new.c1,?? ?'firest2');-------人为插入作业点
+    ?? ?SET content = CONCAT( 'abcabcabc', '[', v2, ']', 'dede', v2,'ccddddd' );
+    ?? ?insert into t (x,cc) ?? ?VALUES(?? ?new.c1,?? ?'firest3');-------人为插入作业点
+    
+    ?? ?insert into t (x,cc) ?? ?VALUES(?? ?new.c1,?? ?'firest4');-------人为插入作业点
+    ?? ?
+    ?? ?OPEN mobile_list;-- 将游标中的值赋值给变量，要注意sql结果列的顺序
+    ?? ?REPEAT
+    ?? ??? ?FETCH mobile_list INTO mob;-- while循环
+    ?? ??? ? ?if not done then
+    ?? ??? ??? ??? ??? ?insert into t (x,cc) ?? ?VALUES(?? ?new.c1,?? ?'firest5');-------人为插入作业点
+    ?? ??? ??? ??? ??? ?INSERT INTO t (x,cc) ?? ?VALUES(?? ?v2,?? ?content);
+    ?? ??? ? ?end if;
+    ?? ??? ?-- 关闭游标
+    ?? ??? ?until done end repeat;
+    ?? ?CLOSE mobile_list;
+    END IF;
+    end;
