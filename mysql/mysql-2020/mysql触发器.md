@@ -141,3 +141,21 @@
     ?? ?CLOSE mobile_list;
     END IF;
     end;
+
+**5.ÊµÀý£º**
+    
+    CREATE TRIGGER `updateRole` AFTER UPDATE ON `t_s_role` FOR EACH ROW BEGIN
+            DECLARE nl int ;
+            DECLARE ns varchar(3000);
+            SELECT t.nLevel+1,CONCAT(nSort,1000000+new.id) into nl,ns from t_s_role_sort t where t.role_code=new.parentId and t.org_code=new.org_code;
+        
+            if nl is null THEN
+                set nl = 1;
+            end if;
+        
+            if ns is null THEN
+                set ns = 1000000+new.id;
+            end if;
+        
+            UPDATE t_s_role_sort SET nLevel = nl,nSort = ns where role_code = old.role_code and org_code=old.org_code;
+        END;
