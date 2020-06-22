@@ -1,4 +1,11 @@
 **docker镜像中心：_docker镜像地址：http://get.daocloud.io/_**
+    
+    https://registry.docker-cn.com
+    http://hub-mirror.c.163.com
+    https://3laho3y3.mirror.aliyuncs.com
+    http://f1361db2.m.daocloud.io
+    https://mirror.ccs.tencentyun.com
+
 **jenkins官网：_https://jenkins.io/download/thank-you-downloading-windows-installer-stable/_**
 **dubbo中文参考文档：_https://dubbo.gitbooks.io/dubbo-user-book/content/quick-start.html_**
 
