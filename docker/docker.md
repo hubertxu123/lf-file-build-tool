@@ -388,7 +388,20 @@
                 表示：aotuindex on是隐藏了文件目录，并没有隐藏文件本身，也就是文件是能访问的，而目录不能访问
         
         
-        
+**其他：**
+    
+    # 直接删除所有镜像
+    docker rmi `docker images -q`
+    
+    # 直接删除所有容器
+    docker rm `docker ps -aq`
+
+    # 按条件筛选之后删除镜像
+    docker rmi `docker images | grep xxxxx | awk '{print $3}'`
+    
+    # 按条件筛选之后删除容器
+    docker rm `docker ps -a | grep xxxxx | awk '{print $1}'`
+
     
 
           
