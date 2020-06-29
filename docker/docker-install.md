@@ -4,6 +4,8 @@
     
     **1.windows**   
         1.win10外:www.docker.com/products/docker-toolbox
+            //需要在快捷方式上将命令改掉
+            D:\install-soft\Git\bin\bash.exe --login -i "D:\install-soft\Docker Toolbox\start.sh"
         2.win10:  www.docker.com/products/docker#/windows
             https://get.daocloud.io/docker-install/windows
     **2.CentOS 6.5上安装docker**:安装docker-compose时使用
@@ -221,4 +223,3 @@
              
             
             
-    
