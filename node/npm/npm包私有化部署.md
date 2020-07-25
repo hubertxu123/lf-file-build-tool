@@ -72,6 +72,8 @@
         验证一下结果和内容（这步可以不用做）：npm config get registry 或  npm info express
     
     8.注意，使用：
+        安装打印全部日志：
+            npm -loglevel info i report-api
     
     
     
