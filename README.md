@@ -108,6 +108,8 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
     21.docker top 容器名 查看当前容器正在运行的进程
     22.docker inspect 容器名   --容器的相关信息-可查看挂载信息
     23.docker logs -f 容器名   --查看web应用日志
+       docker logs -f --tail=100 27
+
     24.docker search tomcat    --搜索tomcat镜像
     ****************************************************************************
     docker 启动 web 示例报错如下：
