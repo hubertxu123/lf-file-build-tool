@@ -109,6 +109,7 @@
   node --max-old-space-size=7000 node_modules/.bin/ng build --prod --aot
   node --max-old-space-size=7000 node_modules/.bin/ng build --aot
   node --max-old-space-size=7000 node_modules/.bin/ng build  最终使用的命令
+  node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --prod
   ● 优点
   ● -1.预编译
   ● -2.代码压缩
