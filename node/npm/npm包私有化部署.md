@@ -47,6 +47,7 @@
         1.上传时上传到私有仓库，下载时去组合仓库下载（既可以下载中央仓库的，又可以下载私有仓库的）
             使用时，会出现 checking installable status，实际是去group检测是否有包，不是问题，但是会慢
             npm --registry http://118.25.13.144:8081/repository/npm-group/ install report-api
+            npm --registry https://registry.npm.taobao.org -loglevel info install report-api
         2.当做成的是一个依赖时，引用到当前项目
             npm install report-api
         3.当做成了一个服务时，
