@@ -269,6 +269,15 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
          2.端口映射-网络访问
          docker run -d -p 8080:80 nginx   --开放指定端口映射   
          docker run -d -P nginx           --开放随机端口映射（可用ps查看具体端口进行访问）
+    4.docker修改启动命令：
+              在启动时如果没有添加这个参数怎么办呢，比如1a7a3b5112fd这个容器在启动的时候是没有添加–restart=always参数的，针对这种情况我们可以使用命令进行修改。docker container update --restart=always 容器名字
+                --restart=always参数能够使我们在重启docker时，自动启动相关容器。
+                  Docker容器的重启策略如下：
+                  no，默认策略，在容器退出时不重启容器
+                  on-failure，在容器非正常退出时（退出状态非0），才会重启容器
+                  on-failure:3，在容器非正常退出时重启容器，最多重启3次
+                  always，在容器退出时总是重启容器
+                  unless-stopped，在容器退出时总是重启容器，但是不考虑在Docker守护进程启动时就已经停止了的容器    
 **10.制作自己的镜像**
 
     1.准备一个打包好的项目：
@@ -505,6 +514,7 @@ Jenkins是一个功能强大的应用程序，允许持续集成和持续交付�
     2.修改程序，返回响应数据类型编码为IOS...
     3.jemter添加后置处理器：prev.serDataEncoding("utf-8")
                   
+        
          
          
         
