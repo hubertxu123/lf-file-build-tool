@@ -12,6 +12,8 @@
     -v /usr/local/nexus-data \
     -e INSTALL4J_ADD_VM_PARAMS="-Xms2g -Xmx2g" \
     sonatype/nexus3:3.8.0
+    
+    docker run  -d -p 8081:8081 --name nexus -v /root/nexus-data:/var/nexus-data sonatype/nexus3:3.8.0
 
     服务启动后访问：http://127.0.0.1:8081/
     默认使用的用户名密码是： admin/admin123
