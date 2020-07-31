@@ -16,6 +16,17 @@
     服务启动后访问：http://127.0.0.1:8081/
     默认使用的用户名密码是： admin/admin123
     
+    docker修改启动命令：
+        在启动时如果没有添加这个参数怎么办呢，比如1a7a3b5112fd这个容器在启动的时候是没有添加–restart=always参数的，针对这种情况我们可以使用命令进行修改。docker container update --restart=always 容器名字
+          --restart=always参数能够使我们在重启docker时，自动启动相关容器。
+            Docker容器的重启策略如下：
+            no，默认策略，在容器退出时不重启容器
+            on-failure，在容器非正常退出时（退出状态非0），才会重启容器
+            on-failure:3，在容器非正常退出时重启容器，最多重启3次
+            always，在容器退出时总是重启容器
+            unless-stopped，在容器退出时总是重启容器，但是不考虑在Docker守护进程启动时就已经停止了的容器    
+
+    
 ### 2.建托管仓库，用户信息
     
     淘宝镜像：https://registry.npm.taobao.org
@@ -75,6 +86,7 @@
     8.注意，使用：
         安装打印全部日志：
             npm -loglevel info i report-api
+    
     
     
     
