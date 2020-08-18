@@ -19,3 +19,10 @@ npm config get registry
 修改npm配置文件
 编辑 ~/.npmrc 加入下面内容
 registry = https://registry.npm.taobao.org
+
+
+report-api:
+    
+    1.命令参数解析
+    2.bytecode加密字节码
+    3.添加命令请求key
