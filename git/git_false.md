@@ -66,3 +66,10 @@
 ——————————————————————
 github提交时总会输入账号密码：
 	解决：使用ssh通道clone
+
+
+**6.github拉取大文件项目时：filename too long解决办法**
+    
+    先执行命令： git config --global core.longpaths true
+    然后：git checkout -f HEAD
+          
