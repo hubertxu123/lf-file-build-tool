@@ -126,3 +126,29 @@
     OR table_name = 'yyd_e_statistic_goods'
     OR table_name = 'yyd_e_statistic_ip'
     OR table_name = 'yyd_e_statistic_main'
+
+## 查看建表语句
+    
+    desc INFORMATION_SCHEMA.COLUMNS;
+    
+    table_catalog	varchar(512)
+    table_schema	varchar(64)
+    table_name	varchar(64)
+    column_name	varchar(64)
+    ordinal_position	bigint(21) unsigned
+    column_default	longtext
+    is_nullable	varchar(3)
+    data_type	varchar(64)
+    character_maximum_length	bigint(21) unsigned
+    character_octet_length	bigint(21) unsigned
+    numeric_precision	bigint(21) unsigned
+    numeric_scale	bigint(21) unsigned
+    datetime_precision	bigint(21) unsigned
+    character_set_name	varchar(32)
+    collation_name	varchar(32)
+    column_type	longtext
+    column_key	varchar(3)
+    extra	varchar(30)
+    privileges	varchar(80)
+    column_comment	varchar(1024)
+    generation_expression	longtext
