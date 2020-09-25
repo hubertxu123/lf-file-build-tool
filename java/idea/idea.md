@@ -12,3 +12,6 @@
             Workding：Directory中输入【$OutputPath$】,代表项目的输出路径
     使用：
         类 --> 右键External Tools --> javap
+5.安装中文界面插件
+    
+    Chinese(Simplified) Language Pack EAP
