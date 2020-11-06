@@ -15,3 +15,7 @@
 5.安装中文界面插件
     
     Chinese(Simplified) Language Pack EAP
+
+6.安装zk插件：zookeeper
+    
+    配置好后在 settings ->  other settings下登录连接使用
