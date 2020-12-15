@@ -19,3 +19,8 @@
 6.安装zk插件：zookeeper
     
     配置好后在 settings ->  other settings下登录连接使用
+
+7.p3c：阿里巴巴出品的代码规范扫描插件
+8.GsonFormat：一键根据json文件生成java类 
+9.Maven Helper：一键查看maven依赖，查看冲突
+10.translate：翻译
