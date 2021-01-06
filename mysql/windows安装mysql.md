@@ -40,7 +40,7 @@
                 mysqld --initialize
                 接步骤6
             ####################################################################
-        -- 刷新账户信息
+        -- 刷新,及时生效
         mysql>flush privileges;      
         -- 退出
         mysql>quit;
@@ -51,3 +51,33 @@
         并且授权可以访问所有数据库表 并且授权帐号为admin 地址是 localhost
             GRANT ALL ON *.* TO 'admin'@'localhost';        
         退出即可使用此账号登录
+    10.测试远程登录，需要修改为 %
+        第一种（改表法）：
+                修改host字段的值，将localhost修改成需要远程连接数据库的ip地址或者直接修改成%。
+                修改成%表示，所有主机都可以通过root用户访问数据库。
+            mysql> update user set host='%' where user='root' and host='localhost';
+                运行上面语句可能会有个报错：
+                ERROR 1062 (23000): Duplicate entry '%-root' for key 'PRIMARY'
+                不用管，直接继续执行：
+            mysql> flush privileges;
+        
+            或者直接创建一个新用户允许外联：
+            insert into mysql.user(Host,User,Password) values("%","用户名",password("密码"));
+            grant all privileges on `库名或*`.* to '用户名'@'%' identified by '密码';  
+            flush privileges;
+        
+        第二种（授权法）:
+            如使用root从任何主机连接到mysql服务器的话。
+            GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '密码' WITH GRANT OPTION;
+            mysql> flush privileges;
+        
+            如果你想允许用户myuser从ip为192.168.0.77的主机连接到mysql服务器，并使用12345作为密码
+            GRANT ALL PRIVILEGES ON *.* TO 'myuser'@'192.168.0.77' IDENTIFIED BY '12345' WITH GRANT OPTION;
+            mysql> flush privileges;
+        
+            注：
+            数据库添加用户语句：
+            grant all privileges on testdb.* to 'test_user'@'localhost' identified by "密码" with grant option;
+            WITH GRANT OPTION 这个选项表示该用户可以将自己拥有的权限授权给别人。
+            在创建操作用户的时候不指定WITH GRANT OPTION选项将导致该用户不能使用GRANT命令创建用户或者给其它用户授权。
+            如果不想这个用户有这个grant的权限，可以不加这句
