@@ -23,11 +23,23 @@
                 default-character-set=utf8
     5.配置环境变量path：
         path:D:\install-soft\mysql-5.7.28-winx64\bin
-    6.运行安装：mysqld -install    
+    6.运行安装：
+            mysqld --initialize
+            mysqld -install    
     7.启动：net start mysql
     8.连接：mysql -u root -p
         -- 修改密码
         mysql>UPDATE mysql.user SET authentication_string = PASSWORD('root'), password_expired = 'N' WHERE User = 'root' AND Host = 'localhost';
+            ####################################################################
+            此处可能报错：ERROR 1146 (42S02): Table 'mysql.user' doesn't exist
+            原因：缺少了命令 【mysqld --initialize】
+            处理：
+                quit;  退出登录
+                net stop mysql    停止运行mysql
+                mysqld --remove   移除mysql
+                mysqld --initialize
+                接步骤6
+            ####################################################################
         -- 刷新账户信息
         mysql>flush privileges;      
         -- 退出
