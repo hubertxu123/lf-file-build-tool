@@ -1,12 +1,12 @@
 
-## ËùÔÚÎ»ÖÃ
+## æ‰€åœ¨ä½ç½®
 
     Settings 
     Editor
     Live Templates
-    otherÀïÃæÌí¼Ó
+    otheré‡Œé¢æ·»åŠ 
 
-## 1.Ìí¼Ó forith  
+## 1.æ·»åŠ  forith  
     
     fori thread
     for (int i = 0; i < $VAR$; i++) {
@@ -15,7 +15,7 @@
        },String.valueOf(i)).start();
     }
 
-## 2.Ìí¼Óerr
+## 2.æ·»åŠ err
     
     (err,data) => {}
     (err,data) => {

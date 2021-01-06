@@ -1,26 +1,26 @@
 
 
-1.°²×°lombok²å¼ş
-2.°²×°easycode´úÂëÉú³É²å¼ş
-3.ÅäÖÃeclipse¿ì½İ¼ü
-4.°²×°javapµÈ¹¤¾ß
+1.å®‰è£…lombokæ’ä»¶
+2.å®‰è£…easycodeä»£ç ç”Ÿæˆæ’ä»¶
+3.é…ç½®eclipseå¿«æ·é”®
+4.å®‰è£…javapç­‰å·¥å…·
     
-    Settings =¡· External Tools£º
-        ÔÚtool setting µÄ
-            Program£ºÊäÈë¹¤¾ßµÄÂ·¾¶£¬ÕâÖĞ¼ä¿ÉÒÔ²åÈëºê£¬±ÈÈç¡¾$JDK_PATH$\bin\javap.exe¡¿£¬²»ĞèÒª×Ô¼ºÔÙÊÖ¶¯ÊäÈëjdkµÄÂ·¾¶ÁË£¬$JDK_PATH$Òª¼Óµ½ÏµÍ³»·¾³±äÁ¿
-            Parameters£ºÖĞÊäÈë¡¾-c $FileClass$¡¿ £¬$FileClass$´ú±íÒª½âÎöµÄ classÎÄ¼ş,-c´ú±íÊä³ö·Ö½âºóµÄ´úÂë
-            Workding£ºDirectoryÖĞÊäÈë¡¾$OutputPath$¡¿,´ú±íÏîÄ¿µÄÊä³öÂ·¾¶
-    Ê¹ÓÃ£º
-        Àà --> ÓÒ¼üExternal Tools --> javap
-5.°²×°ÖĞÎÄ½çÃæ²å¼ş
+    Settings =ã€‹ External Toolsï¼š
+        åœ¨tool setting çš„
+            Programï¼šè¾“å…¥å·¥å…·çš„è·¯å¾„ï¼Œè¿™ä¸­é—´å¯ä»¥æ’å…¥å®ï¼Œæ¯”å¦‚ã€$JDK_PATH$\bin\javap.exeã€‘ï¼Œä¸éœ€è¦è‡ªå·±å†æ‰‹åŠ¨è¾“å…¥jdkçš„è·¯å¾„äº†ï¼Œ$JDK_PATH$è¦åŠ åˆ°ç³»ç»Ÿç¯å¢ƒå˜é‡
+            Parametersï¼šä¸­è¾“å…¥ã€-c $FileClass$ã€‘ ï¼Œ$FileClass$ä»£è¡¨è¦è§£æçš„ classæ–‡ä»¶,-cä»£è¡¨è¾“å‡ºåˆ†è§£åçš„ä»£ç 
+            Workdingï¼šDirectoryä¸­è¾“å…¥ã€$OutputPath$ã€‘,ä»£è¡¨é¡¹ç›®çš„è¾“å‡ºè·¯å¾„
+    ä½¿ç”¨ï¼š
+        ç±» --> å³é”®External Tools --> javap
+5.å®‰è£…ä¸­æ–‡ç•Œé¢æ’ä»¶
     
     Chinese(Simplified) Language Pack EAP
 
-6.°²×°zk²å¼ş£ºzookeeper
+6.å®‰è£…zkæ’ä»¶ï¼šzookeeper
     
-    ÅäÖÃºÃºóÔÚ settings ->  other settingsÏÂµÇÂ¼Á¬½ÓÊ¹ÓÃ
+    é…ç½®å¥½ååœ¨ settings ->  other settingsä¸‹ç™»å½•è¿æ¥ä½¿ç”¨
 
-7.p3c£º°¢Àï°Í°Í³öÆ·µÄ´úÂë¹æ·¶É¨Ãè²å¼ş
-8.GsonFormat£ºÒ»¼ü¸ù¾İjsonÎÄ¼şÉú³ÉjavaÀà 
-9.Maven Helper£ºÒ»¼ü²é¿´mavenÒÀÀµ£¬²é¿´³åÍ»
-10.translate£º·­Òë
+7.p3cï¼šé˜¿é‡Œå·´å·´å‡ºå“çš„ä»£ç è§„èŒƒæ‰«ææ’ä»¶
+8.GsonFormatï¼šä¸€é”®æ ¹æ®jsonæ–‡ä»¶ç”Ÿæˆjavaç±» 
+9.Maven Helperï¼šä¸€é”®æŸ¥çœ‹mavenä¾èµ–ï¼ŒæŸ¥çœ‹å†²çª
+10.translateï¼šç¿»è¯‘
