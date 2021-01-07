@@ -9,6 +9,8 @@
   * [7\.索性MySQL自带查看工具](#7索性mysql自带查看工具)
   * [8\.日志导出sql](#8日志导出sql)
   * [9\.恢复数据](#9恢复数据)
+  * [10\.MySQL的log\_bin和sql\_log\_bin 到底有什么区别？](#10mysql的log_bin和sql_log_bin-到底有什么区别)
+  * [11\.如何设置MySQL数据库备份的binlog\_format【阿里云】](#11如何设置mysql数据库备份的binlog_format阿里云)
 
 
 # 介绍
