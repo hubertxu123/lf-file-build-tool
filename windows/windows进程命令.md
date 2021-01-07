@@ -94,3 +94,5 @@
         pm2 delete all
     查看进程状态
         pm2 list
+    查看日志
+        pm2 logs
