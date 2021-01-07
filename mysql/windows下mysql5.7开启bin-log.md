@@ -29,6 +29,7 @@
 
      修改mysql的配置文件my.ini。添加如下配置：
          [mysqld]
+         server-id = 1 #【必须要有，否则会报错-MySQL 服务无法启动。】
          log-bin=mysql-bin	#指定文件名和路径，这里是默认路径
          binlog-format=Row   #文件类型
          
@@ -38,7 +39,7 @@
         log-bin = /usr/local/var/mysql/logs/mysql-bin.log
         expire-logs-days = 14
         max-binlog-size = 500M
-        server-id = 1
+        server-id = 1 #【必须要有，否则会报错-MySQL 服务无法启动。】
 
 ## 3.重启MySQL服务
 
@@ -48,7 +49,7 @@
      
 ## 4.验证binlog是否开启
 
-     mysql> show variables like ‘%log_bin%’; 和 show binary logs;
+     mysql> show variables like '%log_bin%'; 和 show binary logs;
 
 ## 5.binlog文件的位置
 
@@ -99,3 +100,25 @@
      新开一个cmd窗口，然后执行以下命令
      mysql -uroot -p -v plist < my.sql // plist是数据库名，需要和脚本中操作的数据库名一致
      至此，成功恢复数据。
+
+## 10.MySQL的log_bin和sql_log_bin 到底有什么区别？
+    
+    log_bin:二进制日志。
+        1：数据恢复 
+            如果你的数据库出问题了，而你之前有过备份，那么可以看日志文件，找出是哪个命令导致你的数据库出问题了，想办法挽回损失。 而且，你也可以利用二进制日志来还原你误操作的数据库。
+        2：主从服务器之间同步数据 
+            主服务器上所有的操作都在记录日志中，从服务器可以根据该日志来进行，以确保两个同步。因此，我们经常做的mysql-salva也是利用master的二进制日志来和master数据一致的。
+    sql_log_bin 是一个动态变量，修改该变量时，可以只对当前会话生效（Session），也可以是全局的（Global），当全局修改这个变量时，只会对新的会话生效 （这意味当对当前会话也不会生效），
+        因此一般全局修改了这个变量后，都要把原来的所有连接 kill 掉。
+        用处：
+        当还原数据库的时候，如果不关闭二进制日志，那么你还原的过程仍然会记录在二进制日志里面，不仅浪费资源，那么增加了磁盘的容量，
+        还没有必要（特别是利用二进制还原数据库的时候）所以一般还原的时候会选择关闭二进制日志，可以通过修改配置文件，重启关闭二进制日志。也可以动态命令关闭sql_log_bin,然后导入数据库。
+    
+## 11.如何设置MySQL数据库备份的binlog_format【阿里云】
+
+    阿里云推荐-->ROW
+    数据库备份DBS提供数据全量备份、增量备份和数据恢复。用户首先要创建备份计划（DBS实例），随后配置备份计划，为了备份正常运行，DBS备份对数据库配置和账号有一定要求。
+    使用说明
+    binlog_format需要设置为row，而row模式binlog会包含DML完整的前镜像和后镜像数据，便于数据恢复。
+    binlog_format不推荐设置为statement、mixed模式，相比row模式，没有更好收益。
+    将binlog_format设置为row，只会改变binlog日志内容，不会影响数据库查询，但建议kill数据库当前所有连接，以保证row模式在所有数据库连接上生效。
