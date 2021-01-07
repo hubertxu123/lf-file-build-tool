@@ -14,8 +14,8 @@
     介绍：它的作用就是 打包node为可执行文件(.exe)的工具 
     使用：
         npm install -g pkg
-        pkg server.js           
-        pkg -t win server.js  //上面的命令会同时编译出 linux 、windows 、mac 版的 exe，加 -t win 就可以只编译 windows 下的
+        pkg server.js           //左边的命令会同时编译出 linux 、windows 、mac 版的 exe，加 -t win 就可以只编译 windows 下的
+        pkg -t win server.js  
     编译完成后，会生成server.exe文件，双击该文件，浏览器访问http://localhost:8081即可
     
     报错：注意在编译的过程中（pkg -t win server.js）可能会出现报错的情况，如下
