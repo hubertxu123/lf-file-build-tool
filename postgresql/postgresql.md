@@ -71,3 +71,37 @@
 
     3.锁表的查询
         select pid,usename,pg_blocking_pids(pid) as blocked_by,query as blocked_query from pg_stat_activity where cardinality(pg_blocking_pids(pid))> 0;
+
+### Postgresql 查看当前连接数和最大连接数
+    
+    查看最大连接数
+        show max_connections;
+    查看连接数
+        select count(*), usename from pg_stat_activity group by usename;
+    查询闲置连接数。注意是否忘记关闭链接。 另外还可以查看连接数是不是过多等问题。
+        select count(*) from pg_stat_activity where state='idle'; 
+
+
+    pg_cancel_backend() 取消后台操作，回滚未提交事物
+        select concat('select  pg_terminate_backend(',pid,');') from pg_stat_activity where datname='${databasename}'
+        -- 获取所有相关的pid。并取消相关操作。
+        select  pg_terminate_backend(3802);
+        select  pg_terminate_backend(20484);
+        select  pg_terminate_backend(25389);
+    -- 直接取消后台进程
+        select pg_terminate_backend(pid) from  (select pid from pg_stat_activity where datname = '${databasename}') t;
+    
+    pg_stat_activity 其他应用
+    对这个视图最简单的用法是统计当前有多少活跃的客户端
+        select count(*) from pg_stat_activity where not pid = pg_backend_pid();
+    这个数字 可以随时告诉用户距离服务器的 max_connections 有多近。
+    查看一个后端进程运行了多久，以及它当前是否在等待
+        select pid,state,CURRENT_TIMESTAMP - least(query_start,xact_start) AS runtime,
+        substr(query,1,25) AS current_query
+        from pg_stat_activity
+        where not pid = pg_backend_pid();
+
+## 查询所以表名称
+    
+    SELECT tablename FROM pg_tables WHERE tablename NOT LIKE 'pg%' AND tablename NOT LIKE 'sql_%' ORDER BY tablename;
+
