@@ -65,6 +65,9 @@
         log_min_duration_statement：
         跟踪慢查询语句，单位为毫秒。如设置 5000，表示日志将记录执行5秒以上的SQL语句。
         当 log_statement=all 和 log_min_duration_statement 同时设置时，将跟踪所有语句，忽略log_min_duration_statement 设置。所以需按情况设置其中一个或两个值。
-    2. 查看当前慢SQL  
+    2. 查看正在执行的慢SQL  
     例如查询执行时间超过1秒的SQL  
     select * from pg_stat_activity where state<>'idle' and now()-query_start > interval '1 s' order by query_start ; 
+
+    3.锁表的查询
+        select pid,usename,pg_blocking_pids(pid) as blocked_by,query as blocked_query from pg_stat_activity where cardinality(pg_blocking_pids(pid))> 0;
