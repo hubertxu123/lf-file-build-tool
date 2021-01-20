@@ -1,0 +1,117 @@
+[root@k8s-master kubelet.service.d]# kubectl describe pod coredns-7ff77c879f-47zn6 -n kube-system
+Name:                 coredns-7ff77c879f-47zn6
+Namespace:            kube-system
+Priority:             2000000000
+Priority Class Name:  system-cluster-critical
+Node:                 <none>
+Labels:               k8s-app=kube-dns
+                      pod-template-hash=7ff77c879f
+Annotations:          <none>
+Status:               Pending
+IP:
+IPs:                  <none>
+Controlled By:        ReplicaSet/coredns-7ff77c879f
+Containers:
+  coredns:
+    Image:       registry.aliyuncs.com/google_containers/coredns:1.6.7
+    Ports:       53/UDP, 53/TCP, 9153/TCP
+    Host Ports:  0/UDP, 0/TCP, 0/TCP
+    Args:
+      -conf
+      /etc/coredns/Corefile
+    Limits:
+      memory:  170Mi
+    Requests:
+      cpu:        100m
+      memory:     70Mi
+    Liveness:     http-get http://:8080/health delay=60s timeout=5s period=10s #success=1 #failure=5
+    Readiness:    http-get http://:8181/ready delay=0s timeout=1s period=10s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:
+      /etc/coredns from config-volume (ro)
+      /var/run/secrets/kubernetes.io/serviceaccount from coredns-token-qh8sh (ro)
+Conditions:
+  Type           Status
+  PodScheduled   False
+Volumes:
+  config-volume:
+    Type:      ConfigMap (a volume populated by a ConfigMap)
+    Name:      coredns
+    Optional:  false
+  coredns-token-qh8sh:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  coredns-token-qh8sh
+    Optional:    false
+QoS Class:       Burstable
+Node-Selectors:  kubernetes.io/os=linux
+Tolerations:     CriticalAddonsOnly
+                 node-role.kubernetes.io/master:NoSchedule
+                 node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type     Reason            Age                  From               Message
+  ----     ------            ----                 ----               -------
+  Warning  FailedScheduling  26m (x57 over 166m)  default-scheduler  0/3 nodes are available: 3 node(s) had taint {node.kubernetes.io/not-ready: }, that the pod didn't tolerate.
+  Warning  FailedScheduling  81s (x17 over 24m)   default-scheduler  0/3 nodes are available: 3 node(s) had taint {node.kubernetes.io/not-ready: }, that the pod didn't tolerate.
+[root@k8s-master kubelet.service.d]#
+
+
+
+[root@k8s-master bin]# journalctl -u kubelet
+-- Logs begin at Wed 2021-01-20 18:43:26 CST, end at Wed 2021-01-20 20:30:01 CST. --
+-- Logs begin at Wed 2021-01-20 18:43:26 CST, end at Wed 2021-01-20 20:30:01 CST. --
+Jan 20 18:43:32 k8s-master systemd[1]: Started kubelet: The Kubernetes Node Agent.
+Jan 20 18:43:33 k8s-master kubelet[739]: Flag --cgroup-driver has been deprecated, This parameter should be set via the config file specified by the Kubelet's --config flag. S
+Jan 20 18:43:33 k8s-master kubelet[739]: Flag --cgroup-driver has been deprecated, This parameter should be set via the config file specified by the Kubelet's --config flag. S
+Jan 20 18:43:33 k8s-master kubelet[739]: I0120 18:43:33.406990     739 server.go:417] Version: v1.18.0
+Jan 20 18:43:33 k8s-master kubelet[739]: I0120 18:43:33.407696     739 plugins.go:100] No cloud provider specified.
+Jan 20 18:43:33 k8s-master kubelet[739]: I0120 18:43:33.408191     739 server.go:837] Client rotation is on, will bootstrap in background
+Jan 20 18:43:33 k8s-master kubelet[739]: I0120 18:43:33.413379     739 certificate_store.go:130] Loading cert/key pair from "/var/lib/kubelet/pki/kubelet-client-current.pem".
+Jan 20 18:43:33 k8s-master kubelet[739]: I0120 18:43:33.430581     739 server.go:646] --cgroups-per-qos enabled, but --cgroup-root was not specified.  defaulting to /
+Jan 20 18:43:33 k8s-master kubelet[739]: I0120 18:43:33.432526     739 container_manager_linux.go:266] container manager verified user specified cgroup-root exists: []
+Jan 20 18:43:33 k8s-master kubelet[739]: I0120 18:43:33.432595     739 container_manager_linux.go:271] Creating Container Manager object based on Node Config: {RuntimeCgroupsN
+Jan 20 18:43:33 k8s-master kubelet[739]: I0120 18:43:33.433269     739 topology_manager.go:126] [topologymanager] Creating topology manager with none policy
+Jan 20 18:43:33 k8s-master kubelet[739]: I0120 18:43:33.433314     739 container_manager_linux.go:301] [topologymanager] Initializing Topology Manager with none policy
+Jan 20 18:43:33 k8s-master kubelet[739]: I0120 18:43:33.433323     739 container_manager_linux.go:306] Creating device plugin manager: true
+Jan 20 18:43:33 k8s-master kubelet[739]: I0120 18:43:33.434736     739 client.go:75] Connecting to docker on unix:///var/run/docker.sock
+Jan 20 18:43:33 k8s-master kubelet[739]: I0120 18:43:33.435107     739 client.go:92] Start docker client with request timeout=2m0s
+Jan 20 18:43:33 k8s-master kubelet[739]: F0120 18:43:33.436043     739 server.go:274] failed to run Kubelet: failed to get docker version: Cannot connect to the Docker daemon
+Jan 20 18:43:33 k8s-master systemd[1]: kubelet.service: main process exited, code=exited, status=255/n/a
+Jan 20 18:43:33 k8s-master systemd[1]: Unit kubelet.service entered failed state.
+Jan 20 18:43:33 k8s-master systemd[1]: kubelet.service failed.
+Jan 20 18:43:43 k8s-master systemd[1]: kubelet.service holdoff time over, scheduling restart.
+Jan 20 18:43:43 k8s-master systemd[1]: Stopped kubelet: The Kubernetes Node Agent.
+Jan 20 18:43:43 k8s-master systemd[1]: Started kubelet: The Kubernetes Node Agent.
+Jan 20 18:43:43 k8s-master kubelet[2327]: Flag --cgroup-driver has been deprecated, This parameter should be set via the config file specified by the Kubelet's --config flag.
+Jan 20 18:43:43 k8s-master kubelet[2327]: Flag --cgroup-driver has been deprecated, This parameter should be set via the config file specified by the Kubelet's --config flag.
+Jan 20 18:43:43 k8s-master kubelet[2327]: I0120 18:43:43.658603    2327 server.go:417] Version: v1.18.0
+Jan 20 18:43:43 k8s-master kubelet[2327]: I0120 18:43:43.658909    2327 plugins.go:100] No cloud provider specified.
+Jan 20 18:43:43 k8s-master kubelet[2327]: I0120 18:43:43.658930    2327 server.go:837] Client rotation is on, will bootstrap in background
+Jan 20 18:43:43 k8s-master kubelet[2327]: I0120 18:43:43.660663    2327 certificate_store.go:130] Loading cert/key pair from "/var/lib/kubelet/pki/kubelet-client-current.pem".
+Jan 20 18:43:43 k8s-master kubelet[2327]: I0120 18:43:43.727566    2327 server.go:646] --cgroups-per-qos enabled, but --cgroup-root was not specified.  defaulting to /
+Jan 20 18:43:43 k8s-master kubelet[2327]: I0120 18:43:43.727862    2327 container_manager_linux.go:266] container manager verified user specified cgroup-root exists: []
+Jan 20 18:43:43 k8s-master kubelet[2327]: I0120 18:43:43.727872    2327 container_manager_linux.go:271] Creating Container Manager object based on Node Config: {RuntimeCgroups
+Jan 20 18:43:43 k8s-master kubelet[2327]: I0120 18:43:43.727950    2327 topology_manager.go:126] [topologymanager] Creating topology manager with none policy
+Jan 20 18:43:43 k8s-master kubelet[2327]: I0120 18:43:43.727957    2327 container_manager_linux.go:301] [topologymanager] Initializing Topology Manager with none policy
+Jan 20 18:43:43 k8s-master kubelet[2327]: I0120 18:43:43.727960    2327 container_manager_linux.go:306] Creating device plugin manager: true
+Jan 20 18:43:43 k8s-master kubelet[2327]: I0120 18:43:43.728015    2327 client.go:75] Connecting to docker on unix:///var/run/docker.sock
+Jan 20 18:43:43 k8s-master kubelet[2327]: I0120 18:43:43.728024    2327 client.go:92] Start docker client with request timeout=2m0s
+Jan 20 18:43:43 k8s-master kubelet[2327]: W0120 18:43:43.730259    2327 docker_service.go:561] Hairpin mode set to "promiscuous-bridge" but kubenet is not enabled, falling bac
+Jan 20 18:43:43 k8s-master kubelet[2327]: I0120 18:43:43.730307    2327 docker_service.go:238] Hairpin mode set to "hairpin-veth"
+Jan 20 18:43:43 k8s-master kubelet[2327]: W0120 18:43:43.731020    2327 cni.go:202] Error validating CNI config list {
+Jan 20 18:43:43 k8s-master kubelet[2327]: "name": "cbr0",
+lines 1-41
+
+
+
+o:178] k8s.io/kubernetes/pkg/kubelet/kubelet.go:526: Failed to list *v1.Node: Get https://19
+Jan 20 20:58:26 k8s-master kubelet[2224]: E0120 20:58:26.339512    2224 reflector.go:178] k8s.io/kubernetes/pkg/kubelet/kubelet.go:517: Failed to list *v1.Service: Get https:/
+Jan 20 20:58:26 k8s-master kubelet[2224]: E0120 20:58:26.339763    2224 reflector.go:178] k8s.io/kubernetes/pkg/kubelet/config/apiserver.go:46: Failed to list *v1.Pod: Get htt
+Jan 20 20:58:26 k8s-master kubelet[2224]: E0120 20:58:26.339829    2224 reflector.go:178] k8s.io/kubernetes/pkg/kubelet/kubelet.go:517: Failed to list *v1.Service: Get https:/
+Jan 20 20:58:26 k8s-master kubelet[2224]: E0120 20:58:26.339981    2224 reflector.go:178] k8s.io/kubernetes/pkg/kubelet/kubelet.go:526: Failed to list *v1.Node: Get https://19
+Jan 20 20:58:26 k8s-master kubelet[2224]: E0120 20:58:26.341524    2224 reflector.go:178] k8s.io/kubernetes/pkg/kubelet/config/apiserver.go:46: Failed to list *v1.Pod: Get htt
+Jan 20 20:58:28 k8s-master kubelet[2224]: E0120 20:58:28.035985    2224 reflector.go:178] k8s.io/kubernetes/pkg/kubelet/kubelet.go:526: Failed to list *v1.Node: Get https://19
+Jan 20 20:58:28 k8s-master kubelet[2224]: E0120 20:58:28.628204    2224 reflector.go:178] k8s.io/kubernetes/pkg/kubelet/config/apiserver.go:46: Failed to list *v1.Pod: Get htt
+Jan 20 20:58:28 k8s-master kubelet[2224]: E0120 20:58:28.909648    2224 reflector.go:178] k8s.io/kubernetes/pkg/kubelet/kubelet.go:517: Failed to list *v1.Service: Get https:/
+Jan 20 20:58:32 k8s-master kubelet[2224]: E0120 20:58:32.361043    2224 aws_credentials.go:77] while getting AWS credentials NoCredentialProviders: no valid providers in chain
+Jan 20 20:58:32 k8s-master kubelet[2224]: For verbose messaging see aws.Config.CredentialsChainVerboseErrors
