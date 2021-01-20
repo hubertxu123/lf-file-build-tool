@@ -167,7 +167,11 @@
     3. 根据端口号查看进程
         sudo lsof -i:8088
         [plain] view plain copy
-
+    4.inux根据进程号查看项目路径
+        方式一：
+            pwdx 进程号
+        方式二： 
+            ls -l /proc/进程号/cwd
 
 **3.其他：**
 
