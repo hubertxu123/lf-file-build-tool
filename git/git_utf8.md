@@ -338,13 +338,18 @@
 
 **6.撤销操作**
     
-    不删除已提交代码，撤销 commit，并且撤销 git add . 操作
-        git reset HEAD^ （或者 git reset --mixed HEAD^）
-    不删除已提交代码，撤销 commit （不撤销 git add .）
-        git reset --soft HEAD^
-    版本回退，删除已提交代码，撤销commit，撤销 git add .操作
-        git reset --hard HEAD^
-    1）HEAD^ 的意思是上一个版本，也可以写成 HEAD~1。如果你进行了2次 commit，想都撤回，可以使用 HEAD~2
-    2）如果 commit 注释写错了，只是想改一下注释，只需要执行命令行：git commit --amend。此时会进入默认 vim 编辑器，修改注释完后保存即可。
+    本地提交的撤销操作：
+        不删除已提交代码，撤销 commit，并且撤销 git add . 操作
+            git reset HEAD^ （或者 git reset --mixed HEAD^）
+        不删除已提交代码，撤销 commit （不撤销 git add .）
+            git reset --soft HEAD^
+        版本回退，删除已提交代码，撤销commit，撤销 git add .操作
+            git reset --hard HEAD^
+        1）HEAD^ 的意思是上一个版本，也可以写成 HEAD~1。如果你进行了2次 commit，想都撤回，可以使用 HEAD~2
+        2）如果 commit 注释写错了，只是想改一下注释，只需要执行命令行：git commit --amend。此时会进入默认 vim 编辑器，修改注释完后保存即可。
+    远程提交的撤销操作：先撤销本地，在推送远程
+        $ git reset --hard [版本号]
+        $ git push origin test --force
+
     
     
