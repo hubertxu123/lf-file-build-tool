@@ -24,3 +24,4 @@
 8.GsonFormat：一键根据json文件生成java类 
 9.Maven Helper：一键查看maven依赖，查看冲突
 10.translate：翻译
+11.Git Commit Template插件，提交代码规范问题
