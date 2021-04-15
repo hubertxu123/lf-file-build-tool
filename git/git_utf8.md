@@ -46,6 +46,8 @@
 		默认会使用操作系统指定的默认编辑器，一般可能会是 Vi 或者 Vim。	
 		如果你有其他偏好，比如 Emacs 的话，可以重新设置
 		$ git config --global core.editor emacs	
+		$ git config --global --unset http.proxy
+		$ git config --global http.proxy "localhost:1080"
 	--3.差异分析工具：
 		在解决合并冲突时使用哪种差异分析工具。比如要改用 vimdiff 的话：
 		$ git config --global merge.tool vimdiff
@@ -351,5 +353,9 @@
         $ git reset --hard [版本号]
         $ git push origin test --force
 
+**7.下载某个github用户下的所有仓库信息**
+    
+    $ curl "https://api.github.com/users/a982338665/repos?per_page=100" >xxx2.txt   并保存在xxx2.txt文件
+    通过正则匹配可以获取下载地址或者clone地址等-详见仓库 【https://github.com/a982338665/lf-open-java-generate-code.git】提交记录中有测试代码
     
     
