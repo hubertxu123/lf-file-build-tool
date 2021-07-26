@@ -214,8 +214,9 @@
             gpg --keyserver hkp://pool.sks-keyservers.net --send-keys 公钥ID
         ·将公钥发布到PGP密钥服务器-windows：gpg --keyserver hkp://keyserver.ubuntu.com:11371 --send-keys 5C1845F3
         ·查询公钥是否发布成功：
-            gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 公钥ID
-
+            linux:gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 公钥ID
+            windows:gpg --keyserver hkp://keyserver.ubuntu.com:11371 --recv-keys 5C1845F3
+            
 ### 5.0 上传发布：上传一定不要点击idea的deploy按钮，因为deploy和maven-gpg-plugin结合的不是很好，那个gpg插件无法运行，一定要用客户端
     
     注意：第一次不能上传SNAPSHOT版本
